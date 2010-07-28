@@ -49,4 +49,24 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>qmetric-snapshot</name>
+            <url>https://ec2-79-125-116-182.eu-west-1.compute.amazonaws.com:8443/nexus/content/repositories/qmetric-snapshots/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+        <repository>
+            <id>nexus</id>
+            <name>qmetric-snapshot</name>
+            <url>https://ec2-79-125-116-182.eu-west-1.compute.amazonaws.com:8443/nexus/content/repositories/qmetric-releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:qmg-git/qmg-utilities.git</connection>
+        <url>scm:git:git@github.com:qmg-git/qmg-utilities.git</url>
+        <developerConnection>scm:git:git@github.com:qmg-git/qmg-utilities.git</developerConnection>
+    </scm>
 </project>
