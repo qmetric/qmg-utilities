@@ -65,7 +65,7 @@
         </snapshotRepository>
         <repository>
             <id>nexus</id>
-            <name>qmetric-snapshot</name>
+            <name>qmetric-releases</name>
             <url>https://ec2-79-125-116-182.eu-west-1.compute.amazonaws.com:8443/nexus/content/repositories/qmetric-releases/</url>
         </repository>
     </distributionManagement>
