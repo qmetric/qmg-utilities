@@ -10,6 +10,8 @@
 
     <properties>
         <junit.version>4.8.1</junit.version>
+        <hamcrest.version>1.1</hamcrest.version>
+        <commons-vfs.version>1.0</commons-vfs.version>
     </properties>
 
     <dependencies>
@@ -19,6 +21,19 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Compile time dependencies -->
+        <dependency>
+            <groupId>commons-vfs</groupId>
+            <artifactId>commons-vfs</artifactId>
+            <version>${commons-vfs.version}</version>
         </dependency>
     </dependencies>
 
