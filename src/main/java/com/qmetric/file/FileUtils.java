@@ -58,7 +58,7 @@ public class FileUtils
         }
         catch (IOException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeIOException(e);
         }
     }
 
@@ -76,7 +76,7 @@ public class FileUtils
         }
         catch (FileSystemException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeIOException(e);
         }
     }
 
@@ -91,7 +91,7 @@ public class FileUtils
         }
         catch (FileSystemException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeIOException(e);
         }
         return fileSystemManager;
     }
@@ -104,7 +104,7 @@ public class FileUtils
         }
         catch (FileSystemException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeIOException(e);
         }
     }
 
@@ -117,7 +117,7 @@ public class FileUtils
         }
         catch (FileSystemException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeIOException(e);
         }
     }
 
@@ -144,7 +144,7 @@ public class FileUtils
             }
             catch (IOException e)
             {
-                throw new RuntimeException(e);
+                throw new RuntimeIOException(e);
             }
             try
             {
@@ -152,7 +152,7 @@ public class FileUtils
             }
             catch (IOException e)
             {
-                throw new RuntimeException(e);
+                throw new RuntimeIOException(e);
             }
         }
     }
