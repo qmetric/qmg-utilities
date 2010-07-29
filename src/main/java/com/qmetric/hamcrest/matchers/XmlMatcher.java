@@ -13,7 +13,7 @@ public class XmlMatcher extends TypeSafeMatcher<String>
 
     private String expectedXml;
 
-    public XmlMatcher(String actualXml)
+    private XmlMatcher(String actualXml)
     {
         this.expectedXml = actualXml;
         XMLUnit.setTransformerFactory("org.apache.xalan.processor.TransformerFactoryImpl");
