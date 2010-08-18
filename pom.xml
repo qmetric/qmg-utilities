@@ -15,6 +15,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.joda</groupId>
+            <artifactId>com.springsource.org.joda.time</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
