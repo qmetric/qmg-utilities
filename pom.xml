@@ -8,6 +8,8 @@
     <packaging>jar</packaging>
 
     <properties>
+        <!-- Dependency version numbers. -->
+        <commons-lang.version>2.5</commons-lang.version>
         <junit.version>4.8.1</junit.version>
         <hamcrest.version>1.1</hamcrest.version>
         <commons-vfs.version>1.0</commons-vfs.version>
@@ -15,6 +17,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons-lang.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.joda</groupId>
