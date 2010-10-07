@@ -1,4 +1,4 @@
-package com.qmetric.file;
+package com.qmetric.utilities.file;
 
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;

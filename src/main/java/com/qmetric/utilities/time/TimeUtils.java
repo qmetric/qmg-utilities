@@ -1,4 +1,4 @@
-package com.qmetric.time;
+package com.qmetric.utilities.time;
 
 import org.joda.time.DateTime;
 
