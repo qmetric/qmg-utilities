@@ -1,9 +1,5 @@
 package com.qmetric.utilities.uuid;
 
-import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -16,11 +12,11 @@ public class StrippedUUIDTest
 {
     @Test
     public void shouldReturnUUIDWithoutDashes() {
-        assertThat(new StrippedUUID().generatorUUID().indexOf('-'), equalTo(-1));
+        assertThat(new StrippedUUID().generate().indexOf('-'), equalTo(-1));
     }
 
     @Test
     public void shouldReturnUUIDOf36Characters() {
-        assertThat(new StrippedUUID().generatorUUID().length(), equalTo(36));
+        assertThat(new StrippedUUID().generate().length(), equalTo(36));
     }
 }
