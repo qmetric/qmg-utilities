@@ -9,7 +9,9 @@ package com.qmetric.utilities.uuid;
  * The input to the <code>encode</code> methods is always a byte array. Strictly speaking the output represents a sequence of characters,
  * but since these characters are from a subset of both the Unicode and ASCII character repertoires, it is possible to express the output
  * either as a String or as a byte array.
+ * @deprecated this class is no longer needed. to get uuid without dashes use use com.qmetric.utilities.uuid.StrippedUUID
  */
+@Deprecated
 public final class UUIDCodec
 {
     /**

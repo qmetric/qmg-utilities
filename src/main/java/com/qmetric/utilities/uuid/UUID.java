@@ -4,7 +4,9 @@ import java.security.SecureRandom;
 
 /**
  * Provide method to generate UUID modelled after java.lang.UUID.randomUUID().
+ * @deprecated use com.qmetric.utilities.uuid.StrippedUUID
  */
+@Deprecated
 public final class UUID
 {
     /*
