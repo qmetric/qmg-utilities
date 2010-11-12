@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.qmetric</groupId>
@@ -14,7 +15,8 @@
         <hamcrest.version>1.1</hamcrest.version>
         <commons-vfs.version>1.0</commons-vfs.version>
         <jackson.version>1.5.3</jackson.version>
-         <springframework.version>3.0.3.RELEASE</springframework.version>
+        <springframework.version>3.0.3.RELEASE</springframework.version>
+        <joda-time.version>1.6</joda-time.version>
     </properties>
 
     <dependencies>
@@ -26,9 +28,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.joda</groupId>
-            <artifactId>com.springsource.org.joda.time</artifactId>
-            <version>1.6.0</version>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda-time.version}</version>
         </dependency>
 
         <dependency>
