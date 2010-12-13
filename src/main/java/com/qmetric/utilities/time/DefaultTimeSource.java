@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultTimeSource implements TimeSource
 {
-    private static final DateTime TIME = new DateTime();
 
     @Override public long getTime()
     {
-        return TIME.getMillis();
+        return new DateTime().getMillis();
     }
 }
