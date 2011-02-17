@@ -12,12 +12,15 @@
 
         <!-- Dependency version numbers. -->
         <commons-lang.version>2.5</commons-lang.version>
-        <junit.version>4.8.1</junit.version>
-        <hamcrest.version>1.1</hamcrest.version>
         <commons-vfs.version>1.0</commons-vfs.version>
+        <hamcrest.version>1.1</hamcrest.version>
         <jackson.version>1.5.3</jackson.version>
-        <springframework.version>3.0.3.RELEASE</springframework.version>
+        <javax.mail.version>1.4.3</javax.mail.version>
         <joda-time.version>1.6</joda-time.version>
+        <junit.version>4.8.1</junit.version>
+        <log4j.version>1.2.16</log4j.version>
+        <powermock.version>1.4.7</powermock.version>
+        <springframework.version>3.0.3.RELEASE</springframework.version>
     </properties>
 
     <dependencies>
@@ -68,6 +71,52 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${javax.mail.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+             <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.jms</groupId>
+                    <artifactId>jms</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jdmk</groupId>
+                    <artifactId>jmxtools</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jmx</groupId>
+                    <artifactId>jmxri</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.mail</groupId>
+                    <artifactId>mail</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+         <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
