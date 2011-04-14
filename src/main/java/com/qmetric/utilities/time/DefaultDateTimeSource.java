@@ -4,11 +4,10 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultTimeSource implements TimeSource
+public class DefaultDateTimeSource implements DateTimeSource
 {
-
-    @Override public long getTime()
+    @Override public DateTime now()
     {
-        return new DateTime().getMillis();
+        return new DateTime();
     }
 }
