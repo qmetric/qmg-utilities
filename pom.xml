@@ -4,7 +4,7 @@
 
     <groupId>com.qmetric</groupId>
     <artifactId>qmg-utilities</artifactId>
-    <version>1.28-SNAPSHOT</version>
+    <version>1.30-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -149,7 +149,6 @@
             <id>nexus</id>
             <name>qmetric-snapshot</name>
             <url>http://devbox.local/nexus/content/repositories/qmetric-snapshots</url>
-            <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
         <repository>
             <id>nexus</id>

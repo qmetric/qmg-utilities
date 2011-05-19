@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by IntelliJ IDEA. User: dfarr Date: Jul 26, 2010 Time: 3:02:47 PM To change this template use File | Settings | File Templates.
- */
 public class FileUtils
 {
     public static final int BUFFER_SIZE = 4096;
@@ -93,6 +90,7 @@ public class FileUtils
         {
             throw new RuntimeIOException(e);
         }
+
         return fileSystemManager;
     }
 
@@ -100,7 +98,7 @@ public class FileUtils
     {
         try
         {
-            return resolveFile(vfsLocation, true).getContent();
+            return resolveFile(vfsLocation).getContent();
         }
         catch (FileSystemException e)
         {
@@ -108,9 +106,8 @@ public class FileUtils
         }
     }
 
-    private static FileObject resolveFile(String vfsLocation, boolean resolveAliases)
+    private static FileObject resolveFile(String vfsLocation)
     {
-
         try
         {
             return getFsManager().resolveFile(vfsLocation);
