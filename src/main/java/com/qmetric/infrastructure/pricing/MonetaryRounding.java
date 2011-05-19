@@ -1,5 +1,6 @@
 package com.qmetric.infrastructure.pricing;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
