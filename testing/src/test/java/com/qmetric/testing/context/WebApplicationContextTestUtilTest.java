@@ -1,6 +1,5 @@
 package com.qmetric.testing.context;
 
-import com.qmetric.testing.context.WebApplicationContextTestUtil;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,8 +15,9 @@ public class WebApplicationContextTestUtilTest
     public void shouldOverrideBeans() throws NamingException
     {
         final WebApplicationContextTestUtil contextTestUtil =
-                new WebApplicationContextTestUtil.Builder().rootContextPath("classpath:/spring/applicationContext.xml").webAppContextPath("classpath:/spring/webmvc.xml")
-                        .servletContextResourcePath("/").dbConnectionPoolName("jdbc/testdb").overrideBeanContextPath("classpath:/spring/override.xml").build();
+                new WebApplicationContextTestUtil.Builder().rootContextPath("classpath:/spring/applicationContext.xml")
+                        .webAppContextPath("classpath:/spring/webmvc.xml").servletContextResourcePath("/").dbConnectionPoolName("jdbc/testdb")
+                        .overrideBeanContextPath("classpath:/spring/override.xml").build();
 
         contextTestUtil.assertContextLoad();
 
@@ -33,7 +33,6 @@ public class WebApplicationContextTestUtilTest
         final WebApplicationContextTestUtil contextTestUtil = new WebApplicationContextTestUtil.Builder().dbConnectionPoolName("jdbc/testdb").build();
         contextTestUtil.assertContextLoad();
         final ConnectionFactory connFactory = (ConnectionFactory) contextTestUtil.getBean("rabbitClientConnectionFactory");
-
 
         Assert.assertThat(connFactory.getVirtualHost(), equalTo("int_vhost"));
         Assert.assertThat(connFactory.getUsername(), equalTo("qmg_int"));

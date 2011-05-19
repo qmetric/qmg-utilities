@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Base class for integration tests that only require partial context.xml fragments.
- *
+ * <p/>
  * This may need to be refactored to enable the entire context to be loaded in time...
  */
 @RunWith(SpringJUnit4ClassRunner.class) @TestExecutionListeners({})

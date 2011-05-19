@@ -5,7 +5,7 @@
 
     <bean id="first" class="java.lang.String">
         <constructor-arg value="first"/>
-        </bean>
+    </bean>
 
     <bean id="rabbitClientConnectionFactory" class="com.rabbitmq.client.ConnectionFactory">
         <property name="virtualHost" value="non_vhost"/>

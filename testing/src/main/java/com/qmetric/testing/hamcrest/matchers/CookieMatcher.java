@@ -1,8 +1,10 @@
 package com.qmetric.testing.hamcrest.matchers;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
 import javax.servlet.http.Cookie;
+
 /**
  * Matches cookie name, value, age, secure and path
  */
@@ -26,15 +28,18 @@ public class CookieMatcher extends BaseMatcher
 
         boolean result = false;
 
-        for(Cookie cookie : actualCookies) {
-            result |= cookie.getName() == expectedCookie.getName() && cookie.getValue() == expectedCookie.getValue() && cookie.getPath() == expectedCookie.getPath() && cookie.getSecure() == expectedCookie.getSecure() && cookie.getMaxAge() == expectedCookie.getMaxAge();
+        for (Cookie cookie : actualCookies)
+        {
+            result |= cookie.getName() == expectedCookie.getName() && cookie.getValue() == expectedCookie.getValue() &&
+                      cookie.getPath() == expectedCookie.getPath() && cookie.getSecure() == expectedCookie.getSecure() &&
+                      cookie.getMaxAge() == expectedCookie.getMaxAge();
         }
 
         return result;
-
     }
 
-    public static CookieMatcher containsThis(final Cookie expectedCookie) {
+    public static CookieMatcher containsThis(final Cookie expectedCookie)
+    {
         return new CookieMatcher(expectedCookie);
     }
 

@@ -20,7 +20,7 @@ public class CollectionMatcher<T> extends TypeSafeMatcher<Collection<? extends T
         return new CollectionMatcher<Y>(expected);
     }
 
-    public static <T, Y extends T> CollectionMatcher<Y> containsOnly(Y ... expected)
+    public static <T, Y extends T> CollectionMatcher<Y> containsOnly(Y... expected)
     {
         return new CollectionMatcher<Y>(Arrays.asList(expected));
     }

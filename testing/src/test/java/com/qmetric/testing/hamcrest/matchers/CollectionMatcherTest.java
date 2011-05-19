@@ -58,7 +58,8 @@ public class CollectionMatcherTest
     }
 
     @Test
-    public void shouldBeAbleToUseObjectAsMatcher() {
-        assertThat(Arrays.asList("a","b","c"), CollectionMatcher.containsOnly("a","b","c"));
+    public void shouldBeAbleToUseObjectAsMatcher()
+    {
+        assertThat(Arrays.asList("a", "b", "c"), CollectionMatcher.containsOnly("a", "b", "c"));
     }
 }

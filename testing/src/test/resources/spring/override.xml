@@ -5,6 +5,6 @@
 
     <bean id="first" class="java.lang.String">
         <constructor-arg value="override"/>
-        </bean>
+    </bean>
 
 </beans>

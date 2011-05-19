@@ -16,9 +16,11 @@ public class XmlMatcherTest
 
     private static String EXPECTED_XML_WITH_COMMENT = "<?xml version=\"1.0\"?><root><a id=\"1\" type=\"val\"></a><!-- comment --><b></b></root>";
 
-    private static String XML_WITH_ATTRIBUTES_IN_DIFFERENT_ORDER = "<?xml version=\"1.0\"?><root><a type=\"val\" id=\"1\"></a><!-- comment --><b></b></root>";
+    private static String XML_WITH_ATTRIBUTES_IN_DIFFERENT_ORDER =
+            "<?xml version=\"1.0\"?><root><a type=\"val\" id=\"1\"></a><!-- comment --><b></b></root>";
 
-    private static String XML_WITH_DIFFERENT_ATTRIBUTES = "<?xml version=\"1.0\"?><root><a identity=\"1\" type=\"val\"></a><!-- comment --><b></b></root>";
+    private static String XML_WITH_DIFFERENT_ATTRIBUTES =
+            "<?xml version=\"1.0\"?><root><a identity=\"1\" type=\"val\"></a><!-- comment --><b></b></root>";
 
     @Test
     public void shouldMatchSimpleXML()

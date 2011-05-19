@@ -3,12 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<bean id="rabbitClientConnectionFactory" class="com.rabbitmq.client.ConnectionFactory">
+    <bean id="rabbitClientConnectionFactory" class="com.rabbitmq.client.ConnectionFactory">
         <property name="virtualHost" value="int_vhost"/>
         <property name="username" value="qmg_int"/>
         <property name="password" value="int"/>
         <property name="host" value="79.125.24.245"/>
     </bean>
-    
 
 </beans>

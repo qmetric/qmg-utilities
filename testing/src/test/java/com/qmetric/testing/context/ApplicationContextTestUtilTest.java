@@ -1,6 +1,5 @@
 package com.qmetric.testing.context;
 
-import com.qmetric.testing.context.ApplicationContextTestUtil;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +14,9 @@ public class ApplicationContextTestUtilTest
     @Test
     public void shouldOverrideBeans() throws NamingException
     {
-        final ApplicationContextTestUtil contextTestUtil = new ApplicationContextTestUtil.Builder().rootContextPath("classpath:/spring/applicationContext.xml").dbConnectionPoolName("jdbc/testdb").build();
+        final ApplicationContextTestUtil contextTestUtil =
+                new ApplicationContextTestUtil.Builder().rootContextPath("classpath:/spring/applicationContext.xml")
+                        .dbConnectionPoolName("jdbc/testdb").build();
 
         contextTestUtil.assertContextLoad();
 
