@@ -33,8 +33,7 @@ public class TimeUtilsTest
                 {
                     TimeUtils.unfreezeTime();
                 }
-            }
-        });
+            }});
     }
 
     @Test

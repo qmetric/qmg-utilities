@@ -32,16 +32,14 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 
 /**
- * Helps testing {@link GmailSMTPAppender}. Not used Junit to reduce the jar
- * dependencies and download size of project via Google SVN.
+ * Helps testing {@link GmailSMTPAppender}. Not used Junit to reduce the jar dependencies and download size of project via Google SVN.
  *
  * @author abhinav@tgerm.com
- * @see <a href="http://code.google.com/p/log4j-gmail-smtp-appender/">Google Code Project</a> <br/>
- *      <a href="http://www.tgerm.com">My Blog</a>
+ * @see <a href="http://code.google.com/p/log4j-gmail-smtp-appender/">Google Code Project</a> <br/> <a href="http://www.tgerm.com">My Blog</a>
  */
 public class GmailAppenderTest
 {
-	private static Logger log = Logger.getLogger(GmailAppenderTest.class);
+    private static Logger log = Logger.getLogger(GmailAppenderTest.class);
 
     @Test
     public void emptyTest()
@@ -51,10 +49,11 @@ public class GmailAppenderTest
 
     }
 
-	public static void main(String[] args) {
-		// Do a simple debug log
-		log.debug("Message");
-		// Do an error log to send email
-		log.error("Failed to do foo bar at blah blah blah !");
-	}
+    public static void main(String[] args)
+    {
+        // Do a simple debug log
+        log.debug("Message");
+        // Do an error log to send email
+        log.error("Failed to do foo bar at blah blah blah !");
+    }
 }

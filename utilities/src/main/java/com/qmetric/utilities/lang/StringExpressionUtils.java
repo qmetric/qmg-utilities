@@ -21,7 +21,8 @@ public final class StringExpressionUtils
     /**
      * Must contain at least one occurrence of "${variable_name}" within expression for it to be classes as dynamic.
      */
-    private static final Pattern DYNAMIC_EXPRESSION_PATTERN = Pattern.compile("^.*" + VARIABLE_EXPRESSION_REGEX_START + ".+" + VARIABLE_EXPRESSION_REGEX_END + ".*$");
+    private static final Pattern DYNAMIC_EXPRESSION_PATTERN =
+            Pattern.compile("^.*" + VARIABLE_EXPRESSION_REGEX_START + ".+" + VARIABLE_EXPRESSION_REGEX_END + ".*$");
 
     private StringExpressionUtils()
     {
@@ -29,8 +30,9 @@ public final class StringExpressionUtils
     }
 
     /**
-     * Evaluate a string expression in the following example format "this is a test string with {param_name_1} and {param_name_n}", where "param_name_..." will be resolved based on the
-     * supplied map of parameter names to parameter values.
+     * Evaluate a string expression in the following example format "this is a test string with {param_name_1} and {param_name_n}", where
+     * "param_name_..." will be resolved based on the supplied map of parameter names to parameter values.
+     *
      * @param expression The string expression to evaluate.
      * @param params Map of parameters which include the parameter names defined within the expression.
      * @return Evaluate string.

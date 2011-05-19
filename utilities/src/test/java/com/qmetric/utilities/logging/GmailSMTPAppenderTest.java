@@ -34,21 +34,20 @@ public class GmailSMTPAppenderTest
         assertThat(gmailSMTPAppender.session, is(not(equalTo(null))));
     }
 
-    @Test
-        @Ignore
+    @Test @Ignore
     public void shouldSendMessage() throws MessagingException
     {
-//        Session spy = PowerMockito.spy(gmailSMTPAppender.session);
-//        gmailSMTPAppender.session.setProtocolForAddress("rfc822", "smtps");
-//
-//         SMTPTransport transport = mock(SMTPTransport.class);
-//
-//        when(spy.getTransport("smtps")).thenReturn(transport);
-//
-//        Message message = mock(Message.class);
-//        gmailSMTPAppender.send(message);
-//
-//        verify(transport).connect(anyString(), anyString(), anyString());
-//        verify(transport).sendMessage(eq(message), (Address[]) anyObject());
+        //        Session spy = PowerMockito.spy(gmailSMTPAppender.session);
+        //        gmailSMTPAppender.session.setProtocolForAddress("rfc822", "smtps");
+        //
+        //         SMTPTransport transport = mock(SMTPTransport.class);
+        //
+        //        when(spy.getTransport("smtps")).thenReturn(transport);
+        //
+        //        Message message = mock(Message.class);
+        //        gmailSMTPAppender.send(message);
+        //
+        //        verify(transport).connect(anyString(), anyString(), anyString());
+        //        verify(transport).sendMessage(eq(message), (Address[]) anyObject());
     }
 }

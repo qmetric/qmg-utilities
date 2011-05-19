@@ -24,7 +24,8 @@ public final class StringExpressionUtilsTest
     @Test
     public void handleStringEvaluationWithoutDynamicParams()
     {
-        assertEquals("Unexpected string", "a string to evaluate", StringExpressionUtils.evaluateExpression("a string to evaluate", new HashMap<String, String>()));
+        assertEquals("Unexpected string", "a string to evaluate",
+                     StringExpressionUtils.evaluateExpression("a string to evaluate", new HashMap<String, String>()));
     }
 
     @Test
@@ -35,7 +36,8 @@ public final class StringExpressionUtilsTest
         params.put("param1", "hello");
         params.put("param2", "abc");
 
-        assertEquals("Unexpected string", "a hello string to abc evaluate", StringExpressionUtils.evaluateExpression("a {param1} string to {param2} evaluate", params));
+        assertEquals("Unexpected string", "a hello string to abc evaluate",
+                     StringExpressionUtils.evaluateExpression("a {param1} string to {param2} evaluate", params));
     }
 
     @Test
@@ -47,7 +49,8 @@ public final class StringExpressionUtilsTest
         params.put("param2", "abc");
         params.put("param3", "abc");
 
-        assertEquals("Unexpected string", "a string to hello evaluate", StringExpressionUtils.evaluateExpression("a string to {param1} evaluate", params));
+        assertEquals("Unexpected string", "a string to hello evaluate",
+                     StringExpressionUtils.evaluateExpression("a string to {param1} evaluate", params));
     }
 
     @Test

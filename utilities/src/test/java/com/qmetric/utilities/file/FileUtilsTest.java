@@ -14,7 +14,8 @@ public class FileUtilsTest
     private static final String EXPECTED_FILE_CONTENTS = "some test text";
 
     @Test
-	public void shouldReadTextFromVfsLocation() {
-		assertThat( textFrom( "res:test-file.txt" ), equalTo(EXPECTED_FILE_CONTENTS) );
-	}
+    public void shouldReadTextFromVfsLocation()
+    {
+        assertThat(textFrom("res:test-file.txt"), equalTo(EXPECTED_FILE_CONTENTS));
+    }
 }

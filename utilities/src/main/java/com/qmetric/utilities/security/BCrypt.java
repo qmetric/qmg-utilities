@@ -46,14 +46,17 @@ import java.security.SecureRandom;
 public final class BCrypt
 {
     // BCrypt parameters
+
     private static final int GENSALT_DEFAULT_LOG2_ROUNDS = 10;
 
     private static final int BCRYPT_SALT_LEN = 16;
 
     // Blowfish parameters
+
     private static final int BLOWFISH_NUM_ROUNDS = 16;
 
     // Initial contents of key schedule
+
     private static final int P_orig[] =
             {0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344, 0xa4093822, 0x299f31d0, 0x082efa98, 0xec4e6c89, 0x452821e6, 0x38d01377, 0xbe5466cf,
              0x34e90c6c, 0xc0ac29b7, 0xc97c50dd, 0x3f84d5b5, 0xb5470917, 0x9216d5d9, 0x8979fb1b};
@@ -155,15 +158,18 @@ public final class BCrypt
              0x3ac372e6};
 
     // bcrypt IV: "OrpheanBeholderScryDoubt"
+
     static private final int bf_crypt_ciphertext[] = {0x4f727068, 0x65616e42, 0x65686f6c, 0x64657253, 0x63727944, 0x6f756274};
 
     // Table for Base64 encoding
+
     static private final char base64_code[] =
             {'.', '/', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
              'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
              '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     // Table for Base64 decoding
+
     static private final byte index_64[] =
             {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
              -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 1, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, -1, -1, -1, -1, -1, -1, -1, 2, 3, 4, 5, 6,
@@ -171,6 +177,7 @@ public final class BCrypt
              36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, -1, -1, -1, -1, -1};
 
     // Expanded Blowfish key
+
     private int P[];
 
     private int S[];
@@ -236,7 +243,8 @@ public final class BCrypt
     }
 
     /**
-     * Decode a string encoded using bcrypt's base64 scheme to a byte array. Note that this is *not* compatible with the standard MIME-base64 encoding.
+     * Decode a string encoded using bcrypt's base64 scheme to a byte array. Note that this is *not* compatible with the standard MIME-base64
+     * encoding.
      *
      * @param s the string to decode
      * @param maxolen the maximum number of bytes to decode

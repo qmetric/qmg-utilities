@@ -5,12 +5,18 @@
     <groupId>com.qmetric</groupId>
     <artifactId>qmg-utilities</artifactId>
     <version>1.28-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+    <name>qmg-utilities</name>
 
-    <properties>
+    <modules>
+        <module>testing</module>
+        <module>utilities</module>
+    </modules>
+
+    <properties> <!-- I can't believe I have to say this....but keep this tidy, thank you :) -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Dependency version numbers. -->
+        <!-- dependency versions - keep in together and in order, for all our sanity -->
         <commons-lang.version>2.5</commons-lang.version>
         <commons-vfs.version>1.0</commons-vfs.version>
         <hamcrest.version>1.1</hamcrest.version>
