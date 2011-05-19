@@ -1,8 +1,4 @@
-package com.qmetric.hamcrest.matchers;
-
-/**
- * Created by IntelliJ IDEA. User: dfarr Date: Jul 29, 2010 Time: 11:21:26 AM To change this template use File | Settings | File Templates.
- */
+package com.qmetric.testing.hamcrest.matchers;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -12,7 +8,6 @@ import java.util.Collection;
 
 public class CollectionMatcher<T> extends TypeSafeMatcher<Collection<? extends T>>
 {
-
     private final Collection<? extends T> expected;
 
     private CollectionMatcher(Collection<? extends T> expectedCollection)

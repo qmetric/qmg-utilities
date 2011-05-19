@@ -1,4 +1,4 @@
-package com.qmetric.hamcrest.matchers;
+package com.qmetric.testing.hamcrest.matchers;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 

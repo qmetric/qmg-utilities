@@ -1,6 +1,6 @@
 // Copyright (c) 2010, QMetric Group Limited. All rights reserved.
 
-package com.qmetric.infrastructure.context;
+package com.qmetric.testing.context;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.PredicateUtils;

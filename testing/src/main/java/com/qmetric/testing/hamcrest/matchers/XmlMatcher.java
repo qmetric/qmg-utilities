@@ -1,4 +1,4 @@
-package com.qmetric.hamcrest.matchers;
+package com.qmetric.testing.hamcrest.matchers;
 
 /**
  * Created by IntelliJ IDEA. User: dfarr Date: Jul 29, 2010 Time: 10:08:51 AM To change this template use File | Settings | File Templates.

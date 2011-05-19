@@ -1,14 +1,9 @@
-package com.qmetric.hamcrest.matchers;
+package com.qmetric.testing.hamcrest.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 
 /**
  * Created by IntelliJ IDEA. User: dfarr Date: Jul 29, 2010 Time: 4:07:13 PM To change this template use File | Settings | File Templates.

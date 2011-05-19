@@ -1,5 +1,6 @@
-package com.qmetric.infrastructure.context;
+package com.qmetric.testing.context;
 
+import com.qmetric.testing.context.WebApplicationContextTestUtil;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.Assert;
 import org.junit.Test;
