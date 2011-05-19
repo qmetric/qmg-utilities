@@ -4,12 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.qmetric.utilities</groupId>
+    <artifactId>utilities</artifactId>
+    <packaging>jar</packaging>
+
+    <name>utilities</name>
+
     <parent>
         <artifactId>qmg-utilities</artifactId>
         <groupId>com.qmetric</groupId>
         <version>1.30-SNAPSHOT</version>
     </parent>
-
-    <artifactId>utilities</artifactId>
 
 </project>
