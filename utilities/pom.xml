@@ -12,7 +12,7 @@
 
     <parent>
         <artifactId>qmg-utilities</artifactId>
-        <groupId>com.qmetric</groupId>
+        <groupId>com.qmetric.utilities</groupId>
         <version>1.30-SNAPSHOT</version>
     </parent>
 
