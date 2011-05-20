@@ -1,9 +1,10 @@
 package com.qmetric.infrastructure.pricing;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class ScaleOnly implements RoundingStrategy
+public class ScaleOnly implements RoundingStrategy, Serializable
 {
     private static final int DEFAULT_EXCEL_SCALE = 16;
 
