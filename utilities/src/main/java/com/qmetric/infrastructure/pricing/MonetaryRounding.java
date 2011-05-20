@@ -1,11 +1,12 @@
 package com.qmetric.infrastructure.pricing;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import static java.math.RoundingMode.HALF_UP;
 
-public class MonetaryRounding implements RoundingStrategy
+public class MonetaryRounding implements RoundingStrategy, Serializable
 {
     @Override public BigDecimal round(final BigDecimal value)
     {

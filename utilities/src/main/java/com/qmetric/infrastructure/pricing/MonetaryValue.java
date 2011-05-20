@@ -15,7 +15,7 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
 
     private BigDecimal value;
 
-    private transient RoundingStrategy roundingStrategy = new MonetaryRounding();
+    private RoundingStrategy roundingStrategy = new MonetaryRounding();
 
     public MonetaryValue(final String val, final RoundingStrategy roundingStrategy)
     {
