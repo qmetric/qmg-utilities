@@ -1,7 +1,6 @@
 package com.qmetric.utilities.money;
 
-import com.qmetric.utilities.money.MonetaryValue;
-import com.qmetric.utilities.money.ScaleOnly;
+import com.qmetric.utilities.json.JsonUtilities;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -186,6 +185,12 @@ public class MonetaryValueTest
 
         assertThat(base.lessThanOrEqualTo(new MonetaryValue("10.00")), equalTo(false));
     }
+
+    @Test
+    public void shouldSerialiseMonetaryValueToJson() throws Exception
+    {
+        final String json = JsonUtilities.serializeToJson(ONE);
+
+        assertThat(json, equalTo("\"" + ONE.getCurrencyFormattedString() + "\""));
+    }
 }
-
-
