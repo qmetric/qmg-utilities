@@ -21,4 +21,3 @@ public class MonetaryRoundingTest
         assertThat(monetaryRounding.round(new BigDecimal("10.00")), equalTo(new BigDecimal("10.00")));
     }
 }
-
