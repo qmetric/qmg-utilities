@@ -1,4 +1,4 @@
-package com.qmetric.infrastructure.pricing;
+package com.qmetric.utilities.money;
 
 import org.codehaus.jackson.annotate.JsonValue;
 

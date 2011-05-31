@@ -1,5 +1,6 @@
-package com.qmetric.infrastructure.pricing;
+package com.qmetric.utilities.money;
 
+import com.qmetric.utilities.money.MonetaryRounding;
 import org.junit.Test;
 
 import java.math.BigDecimal;

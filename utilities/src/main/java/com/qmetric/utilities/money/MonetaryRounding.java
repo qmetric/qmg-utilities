@@ -1,4 +1,6 @@
-package com.qmetric.infrastructure.pricing;
+package com.qmetric.utilities.money;
+
+import com.qmetric.utilities.money.RoundingStrategy;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

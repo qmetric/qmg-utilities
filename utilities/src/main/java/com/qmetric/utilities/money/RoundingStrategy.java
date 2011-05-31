@@ -1,4 +1,4 @@
-package com.qmetric.infrastructure.pricing;
+package com.qmetric.utilities.money;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
