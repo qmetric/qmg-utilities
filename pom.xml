@@ -35,6 +35,7 @@
         <log4j.version>1.2.16</log4j.version>
         <mockito.version>1.8.5</mockito.version>
         <powermock.version>1.4.7</powermock.version>
+        <servlet-api.version>2.5</servlet-api.version>
         <springframework.version>3.0.5.RELEASE</springframework.version>
         <saxon-he.version>9.2.1.1</saxon-he.version>
         <xalan.version>2.7.1</xalan.version>
