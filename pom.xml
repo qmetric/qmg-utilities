@@ -20,6 +20,7 @@
 
         <!-- dependency versions - keep in together and in order, for all our sanity -->
         <amqp.client.version>2.0.0</amqp.client.version>
+        <aspectj.version>1.6.8</aspectj.version>
         <commons-dbcp.version>1.2.2</commons-dbcp.version>
         <commons-lang.version>2.5</commons-lang.version>
         <commons-vfs.version>1.0</commons-vfs.version>

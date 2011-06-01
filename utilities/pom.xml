@@ -121,6 +121,12 @@
             <version>${joda-time.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+        
         <!-- Provided -->
 
         <dependency>
