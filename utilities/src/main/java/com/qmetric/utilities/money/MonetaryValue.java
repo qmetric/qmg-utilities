@@ -61,6 +61,11 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
         return new MonetaryValue(result, roundingStrategy);
     }
 
+    public MonetaryValue multiply(final int i)
+    {
+        return multiply(new BigDecimal(i));
+    }
+
     private BigDecimal scale(BigDecimal candidate)
     {
         return roundingStrategy.round(candidate);
@@ -80,7 +85,7 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
     public MonetaryValue subtract(final MonetaryValue subtrahend)
     {
         final BigDecimal result = scale(this.value.subtract(subtrahend.value));
-        return new MonetaryValue(result);
+        return new MonetaryValue(result, roundingStrategy);
     }
 
     @Override
