@@ -120,6 +120,11 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
         return this.value.compareTo(otherValue.value) > 0;
     }
 
+    public boolean greaterThanOrEqualTo(final MonetaryValue otherValue)
+    {
+        return this.value.compareTo(otherValue.value) > -1;
+    }
+
     public boolean lessThanOrEqualTo(final MonetaryValue otherValue)
     {
         return this.value.compareTo(otherValue.value) < 1;

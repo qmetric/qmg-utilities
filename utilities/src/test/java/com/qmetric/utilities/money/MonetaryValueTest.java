@@ -209,6 +209,30 @@ public class MonetaryValueTest
     }
 
     @Test
+    public void shouldReturnTrueForGreaterThanOrEqualToComparisonWhenValueIsGreater()
+    {
+        final MonetaryValue base = new MonetaryValue("10.50");
+
+        assertThat(base.greaterThanOrEqualTo(new MonetaryValue("10.00")), equalTo(true));
+    }
+
+    @Test
+    public void shouldReturnTrueForGreaterThanOrEqualToComparisonWhenValueIsEqual()
+    {
+        final MonetaryValue base = new MonetaryValue("10.00");
+
+        assertThat(base.greaterThanOrEqualTo(new MonetaryValue("10.00")), equalTo(true));
+    }
+
+    @Test
+    public void shouldReturnFalseForGreaterThanOrEqualToComparisonWhenValueIsLess()
+    {
+        final MonetaryValue base = new MonetaryValue("9.00");
+
+        assertThat(base.greaterThanOrEqualTo(new MonetaryValue("10.00")), equalTo(false));
+    }
+
+    @Test
     public void shouldSerialiseMonetaryValueToJson() throws Exception
     {
         final String json = JsonUtilities.serializeToJson(ONE);
