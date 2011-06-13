@@ -29,7 +29,6 @@
         <hamcrest.version>1.1</hamcrest.version>
         <jackson.version>1.5.3</jackson.version>
         <javax.mail.version>1.4.3</javax.mail.version>
-        <jdom.version>1.0</jdom.version>
         <joda-time.version>1.6</joda-time.version>
         <junit.version>4.8.1</junit.version>
         <log4j.version>1.2.16</log4j.version>

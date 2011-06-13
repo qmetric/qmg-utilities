@@ -96,12 +96,6 @@
             <version>${saxon-he.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>${jdom.version}</version>
-        </dependency>
-
         <!-- Helper utils -->
         <dependency>
             <groupId>commons-vfs</groupId>
@@ -126,7 +120,7 @@
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
         </dependency>
-        
+
         <!-- Provided -->
 
         <dependency>
