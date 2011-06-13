@@ -57,6 +57,16 @@ public class MonetaryValueTest
     }
 
     @Test
+    public void shouldMultiplyValuesUsingInteger()
+    {
+        MonetaryValue roundedBigDecimal = TWO;
+
+        final MonetaryValue result = roundedBigDecimal.multiply(2);
+
+        assertThat(result, equalTo(new MonetaryValue("4")));
+    }
+
+    @Test
     public void shouldRoundDividedNumbersUsingBigDecimal()
     {
         MonetaryValue monetaryValue = new MonetaryValue("50.00");
@@ -76,6 +86,18 @@ public class MonetaryValueTest
         final MonetaryValue result = monetaryValue.divide(roundedBigDecimal2, 5);
 
         assertThat(result, equalTo(new MonetaryValue("166.66667")));
+    }
+
+    @Test
+    public void shouldSubtractAndRound()
+    {
+        MonetaryValue monetaryValue = new MonetaryValue("20.00");
+
+        MonetaryValue subtrahend = new MonetaryValue("13.33");
+
+        final MonetaryValue result = monetaryValue.subtract(subtrahend);
+
+        assertThat(result, equalTo(new MonetaryValue("6.67")));
     }
 
     @Test
@@ -184,6 +206,30 @@ public class MonetaryValueTest
         final MonetaryValue base = new MonetaryValue("10.50");
 
         assertThat(base.lessThanOrEqualTo(new MonetaryValue("10.00")), equalTo(false));
+    }
+
+    @Test
+    public void shouldReturnTrueForGreaterThanOrEqualToComparisonWhenValueIsGreater()
+    {
+        final MonetaryValue base = new MonetaryValue("10.50");
+
+        assertThat(base.greaterThanOrEqualTo(new MonetaryValue("10.00")), equalTo(true));
+    }
+
+    @Test
+    public void shouldReturnTrueForGreaterThanOrEqualToComparisonWhenValueIsEqual()
+    {
+        final MonetaryValue base = new MonetaryValue("10.00");
+
+        assertThat(base.greaterThanOrEqualTo(new MonetaryValue("10.00")), equalTo(true));
+    }
+
+    @Test
+    public void shouldReturnFalseForGreaterThanOrEqualToComparisonWhenValueIsLess()
+    {
+        final MonetaryValue base = new MonetaryValue("9.00");
+
+        assertThat(base.greaterThanOrEqualTo(new MonetaryValue("10.00")), equalTo(false));
     }
 
     @Test
