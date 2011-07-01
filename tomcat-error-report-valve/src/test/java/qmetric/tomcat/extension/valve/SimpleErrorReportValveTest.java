@@ -1,12 +1,13 @@
 package qmetric.tomcat.extension.valve;
 
-import org.apache.catalina.Globals;
 import org.apache.catalina.Valve;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import javax.servlet.RequestDispatcher;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -60,7 +61,7 @@ public class SimpleErrorReportValveTest
     public void shouldCreateSimpleReportWhenResponseIsAnError() throws Exception
     {
         when(response.isCommitted()).thenReturn(false);
-        when(request.getAttribute(Globals.EXCEPTION_ATTR)).thenReturn(new Object());
+        when(request.getAttribute(RequestDispatcher.ERROR_EXCEPTION)).thenReturn(new Object());
         when(response.getStatus()).thenReturn(400);
 
         simpleErrorReportValve.invoke(request, response);

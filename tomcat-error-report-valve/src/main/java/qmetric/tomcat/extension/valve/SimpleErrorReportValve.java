@@ -1,11 +1,11 @@
 package qmetric.tomcat.extension.valve;
 
-import org.apache.catalina.Globals;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
 import org.apache.catalina.util.RequestUtil;
 import org.apache.catalina.valves.ValveBase;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,7 +37,7 @@ public final class SimpleErrorReportValve extends ValveBase
             return;
         }
 
-        if (request.getAttribute(Globals.EXCEPTION_ATTR) != null)
+        if (request.getAttribute(RequestDispatcher.ERROR_EXCEPTION) != null)
         {
 
             // The response is an error
@@ -117,7 +117,7 @@ public final class SimpleErrorReportValve extends ValveBase
 
     private boolean isNotError(final Response response)
     {
-        return (response.getStatus() < 400) || (response.getContentCount() > 0);
+        return (response.getStatus() < 400) || (response.getContentWritten() > 0);
     }
 }
 
