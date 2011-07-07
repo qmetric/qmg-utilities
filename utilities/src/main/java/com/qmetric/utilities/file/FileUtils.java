@@ -77,7 +77,7 @@ public class FileUtils
         }
     }
 
-    private static FileSystemManager getFsManager()
+    public static FileSystemManager getFsManager()
     {
         try
         {
