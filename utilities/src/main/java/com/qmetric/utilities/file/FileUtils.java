@@ -94,7 +94,7 @@ public class FileUtils
         return fileSystemManager;
     }
 
-    private static FileContent getFileContent(String vfsLocation)
+    public static FileContent getFileContent(String vfsLocation)
     {
         try
         {
@@ -106,7 +106,7 @@ public class FileUtils
         }
     }
 
-    private static FileObject resolveFile(String vfsLocation)
+    public static FileObject resolveFile(String vfsLocation)
     {
         try
         {
