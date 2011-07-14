@@ -4,7 +4,7 @@
 
     <groupId>com.qmetric.utilities</groupId>
     <artifactId>qmg-utilities</artifactId>
-    <version>1.45-SNAPSHOT</version>
+    <version>1.46-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>qmg-utilities</name>
@@ -30,6 +30,7 @@
         <hamcrest.version>1.1</hamcrest.version>
         <jackson.version>1.5.3</jackson.version>
         <javax.mail.version>1.4.3</javax.mail.version>
+        <jetty.version>6.0.2</jetty.version>
         <joda-time.version>1.6</joda-time.version>
         <junit.version>4.8.1</junit.version>
         <log4j.version>1.2.16</log4j.version>

@@ -11,7 +11,7 @@
     <parent>
         <artifactId>qmg-utilities</artifactId>
         <groupId>com.qmetric.utilities</groupId>
-        <version>1.45-SNAPSHOT</version>
+        <version>1.46-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -39,6 +39,30 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jetty</groupId>
+            <artifactId>jetty</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jetty</groupId>
+            <artifactId>jetty-plus</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jetty</groupId>
+            <artifactId>jetty-naming</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
 
         <!-- Commons  -->
