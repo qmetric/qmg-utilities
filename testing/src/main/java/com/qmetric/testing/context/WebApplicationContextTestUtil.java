@@ -35,6 +35,8 @@ public final class WebApplicationContextTestUtil
 
     private String overrideBeanPath;
 
+    private List<String> extraConnectionNames;
+
     WebApplicationContextTestUtil(Builder builder)
     {
         this.rootContextPath = builder.rootContextPath;
@@ -43,6 +45,7 @@ public final class WebApplicationContextTestUtil
         this.servletContextResourcePath = builder.servletContextResourcePath;
         this.localOverridesContextPath = builder.localOverridesContextPath;
         this.dbConnectionPoolName = builder.dbConnectionPoolName;
+        extraConnectionNames = builder.extraConnectionNames;
     }
 
     public void assertContextLoad() throws NamingException
@@ -69,8 +72,20 @@ public final class WebApplicationContextTestUtil
     {
         SimpleNamingContextBuilder namingContext = new SimpleNamingContextBuilder();
         namingContext.bind(dbConnectionPoolName, createInMemoryDataSource());
+        additionalDbConnectionPools(namingContext);
         namingContext.activate();
         return namingContext;
+    }
+
+    private void additionalDbConnectionPools(final SimpleNamingContextBuilder namingContext)
+    {
+        if( ! extraConnectionNames.isEmpty())
+        {
+            for (String name : extraConnectionNames)
+            {
+                namingContext.bind(name, createInMemoryDataSource());
+            }
+        }
     }
 
     private void initApplicationContext(final String rootContextPath, final String localOverridesContextPath, final String overrideBeanPath)
@@ -124,6 +139,8 @@ public final class WebApplicationContextTestUtil
 
         private String dbConnectionPoolName;
 
+        private List<String> extraConnectionNames = new ArrayList<String>();
+
         private String overrideBeanPath;// = "classpath:/spring/overridden-beans.xml";
 
         public Builder rootContextPath(final String rootContextPath)
@@ -149,6 +166,13 @@ public final class WebApplicationContextTestUtil
             this.dbConnectionPoolName = dbConnectionPoolName;
             return this;
         }
+
+        public Builder additionalConnectionPoolName(final String dbConnectionPoolName)
+        {
+            extraConnectionNames.add(dbConnectionPoolName);
+            return this;
+        }
+
 
         public Builder overrideBeanContextPath(final String overrideBeanPath)
         {
