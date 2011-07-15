@@ -102,6 +102,18 @@ public class FileUtils
         }
     }
 
+    public static InputStream inputStreamFromString(final String value)
+    {
+        try
+        {
+            return IOUtils.toInputStream(value, "UTF-8");
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Failed to convert string to input stream", e);
+        }
+    }
+
     /**
      * Get bytes from apache vfs location.
      *
@@ -180,22 +192,20 @@ public class FileUtils
         }
     }
 
-    public static FileObject findSingleInstance(final String filename, final FileObject fileObject)
+    public static FileObject[] find(final String filename, final FileObject folder)
     {
         final FileObject[] files;
 
         try
         {
-            files = fileObject.findFiles(new FileSelector(filename));
+            files = folder.findFiles(new FileSelector(filename));
         }
         catch (FileSystemException e)
         {
             throw new RuntimeException(e);
         }
 
-        Validate.isTrue(files != null || files.length == 1, String.format("Invalid. Trying to find single instance [%s], but got [%s]", filename, StringUtils.join(files)));
-
-        return files[0];
+        return files;
     }
 
     private static int copy(InputStream in, OutputStream out) throws IOException
