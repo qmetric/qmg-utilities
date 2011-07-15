@@ -1,20 +1,23 @@
 package com.qmetric.utilities.file;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.VFS;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+
+import static org.apache.commons.io.IOUtils.toByteArray;
 
 public class FileUtils
 {
-    public static final int BUFFER_SIZE = 4096;
-
     private static FileSystemManager fileSystemManager;
 
     /**
@@ -47,15 +50,25 @@ public class FileUtils
      */
     public static byte[] bytesFrom(InputStream inputStream)
     {
-        ByteArrayOutputStream out = new ByteArrayOutputStream(BUFFER_SIZE);
         try
         {
-            copy(inputStream, out);
-            return out.toByteArray();
+            return toByteArray(inputStream);
         }
         catch (IOException e)
         {
-            throw new RuntimeIOException(e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static byte[] bytesFrom(final FileObject file)
+    {
+        try
+        {
+            return toByteArray(file.getContent().getInputStream());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 
@@ -70,6 +83,36 @@ public class FileUtils
         try
         {
             return getFileContent(vfsLocation).getInputStream();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeIOException(e);
+        }
+    }
+
+    public static InputStream inputStreamFrom(FileObject fileObject)
+    {
+        try
+        {
+            return fileObject.getContent().getInputStream();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeIOException(e);
+        }
+    }
+
+    /**
+     * Get bytes from apache vfs location.
+     *
+     * @param vfsLocation VFS location to read from
+     * @return InputStream for VFS location
+     */
+    public static OutputStream outputStreamFrom(String vfsLocation)
+    {
+        try
+        {
+            return getFileContent(vfsLocation).getOutputStream();
         }
         catch (FileSystemException e)
         {
@@ -118,39 +161,45 @@ public class FileUtils
         }
     }
 
-    private static int copy(InputStream in, OutputStream out) throws IOException
+    public static FileObject resolveFile(URL url)
+    {
+        return resolveFile(url.toString());
+    }
+
+    public static FileObject createFolder(final String folderPath)
     {
         try
         {
-            int byteCount = 0;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int bytesRead = -1;
-            while ((bytesRead = in.read(buffer)) != -1)
-            {
-                out.write(buffer, 0, bytesRead);
-                byteCount += bytesRead;
-            }
-            out.flush();
-            return byteCount;
+            final FileObject fileObject = FileUtils.resolveFile(folderPath);
+            fileObject.createFolder();
+            return fileObject;
         }
-        finally
+        catch (FileSystemException e)
         {
-            try
-            {
-                in.close();
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeIOException(e);
-            }
-            try
-            {
-                out.close();
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeIOException(e);
-            }
+            throw new RuntimeException(e);
         }
+    }
+
+    public static FileObject findSingleInstance(final String filename, final FileObject fileObject)
+    {
+        final FileObject[] files;
+
+        try
+        {
+            files = fileObject.findFiles(new FileSelector(filename));
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        Validate.isTrue(files != null || files.length == 1, String.format("Invalid. Trying to find single instance [%s], but got [%s]", filename, StringUtils.join(files)));
+
+        return files[0];
+    }
+
+    private static int copy(InputStream in, OutputStream out) throws IOException
+    {
+        return copy(in, out);
     }
 }
