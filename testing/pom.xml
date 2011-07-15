@@ -16,12 +16,12 @@
 
     <dependencies>
 
-        <!-- test scrope -->
+
         <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
             <version>${xalan.version}</version>
-            <scope>test</scope>
+            
         </dependency>
 
         <!-- Testing not scoped as test -->
