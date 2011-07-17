@@ -2,7 +2,6 @@ package com.qmetric.utilities.file;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -12,6 +11,7 @@ import org.apache.commons.vfs.VFS;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 import static org.apache.commons.io.IOUtils.toByteArray;
@@ -29,6 +29,18 @@ public class FileUtils
     public static String textFrom(String vfsLocation)
     {
         return new String(bytesFrom(vfsLocation));
+    }
+
+    public static String textFrom(FileObject fileObject)
+    {
+        try
+        {
+            return new String(bytesFrom(fileObject), "UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -178,12 +190,68 @@ public class FileUtils
         return resolveFile(url.toString());
     }
 
-    public static FileObject createFolder(final String folderPath)
+    public static FileObject resolveFile(final FileObject parent, final String child)
     {
         try
         {
-            final FileObject fileObject = FileUtils.resolveFile(folderPath);
+            return parent.resolveFile(child);
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static FileObject createFolder(final String vfsLocation)
+    {
+        final FileObject fileObject = resolveFile(vfsLocation);
+        try
+        {
             fileObject.createFolder();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return fileObject;
+    }
+
+    public static FileObject createFolder(final FileObject parent, final String subFolder)
+    {
+        final FileObject newFolder = resolveFile(parent, subFolder);
+        try
+        {
+            newFolder.createFolder();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return newFolder;
+    }
+
+    public static FileObject createFile(final String vfsLocation)
+    {
+        final FileObject fileObject = resolveFile(vfsLocation);
+        try
+        {
+            fileObject.createFile();
+            return fileObject;
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static FileObject createFile(final FileObject rootPath, final String filename)
+    {
+        try
+        {
+            final FileObject fileObject = resolveFile(rootPath, filename);
+
+            fileObject.createFile();
+
             return fileObject;
         }
         catch (FileSystemException e)
@@ -206,6 +274,32 @@ public class FileUtils
         }
 
         return files;
+    }
+
+    public static FileObject findFile(final String filename, final FileObject folder)
+    {
+        final FileObject[] files = find(filename, folder);
+
+        if (files.length == 1)
+        {
+            return files[0];
+        }
+        else
+        {
+            throw new RuntimeException(String.format("Failed to find [%s] in zip [%s], find returned [%s]", filename, folder.getName(), StringUtils.join(files)));
+        }
+    }
+
+    public static void delete(final FileObject file)
+    {
+        try
+        {
+            file.delete();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     private static int copy(InputStream in, OutputStream out) throws IOException

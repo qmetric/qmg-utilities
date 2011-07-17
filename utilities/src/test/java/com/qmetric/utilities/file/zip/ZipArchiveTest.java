@@ -58,11 +58,13 @@ public class ZipArchiveTest
     @Test
     public void shouldExtractZipToOutputFolder() throws Exception
     {
-        FileObject zip = resolveFile("zip:" + resolveFile("res:zip/scheduleTemplate.zip").getName().getPath());
+        final FileObject zipFile = resolveFile("res:zip/scheduleTemplate.zip");
+
+        FileObject zip = resolveFile("zip:" + zipFile.getName().getPath());
 
         final FileObject outputFolder = BASE_FOLDER;
 
-        new ZipArchive().extract(zip, outputFolder);
+        new ZipArchive().extract(zipFile, outputFolder);
 
         final FileObject[] files = outputFolder.findFiles(Selectors.SELECT_FILES);
 

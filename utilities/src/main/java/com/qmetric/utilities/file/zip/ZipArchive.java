@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
+import static com.qmetric.utilities.file.FileUtils.resolveFile;
+
 /**
  * Creates or extracts zip files.
  * <p/>
@@ -47,11 +49,11 @@ public final class ZipArchive
         }
     }
 
-    public void extract(final FileObject zip, final FileObject outputFolder)
+    public void extract(final FileObject zipFilePath, final FileObject outputFolder)
     {
-        Validate.notNull(zip, "Zip file cannot be null");
+        Validate.notNull(zipFilePath, "Zip file cannot be null");
         Validate.notNull(outputFolder, "Output folder cannot be null");
-        Validate.isTrue(zip.getName().toString().contains("zip!"), String.format("Zip file must be a zip [%s]", zip.getName()));
+        FileObject zip = resolveFile("zip:" + zipFilePath);
         isTypeFolder(outputFolder);
 
         try
