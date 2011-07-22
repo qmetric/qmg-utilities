@@ -28,39 +28,29 @@ public class ZipArchiveTest
     }
 
     @Test
-    public void shouldWriteZipFileContainingAllFilesInRequestedEntries() throws Exception
+    public void shouldWriteZipFileContainingExpectedFile() throws Exception
     {
-        final FileObject fileObject = resolveFile("res:document/template/welcome/Welcome.xsl");
+        final String expectedFilePath = "welcome/Welcome.xsl";
 
-        new ZipArchive().zip(outputFile, new ZipFileEntry(fileObject, "document/template/welcome"));
+        final FileObject welcomeXsl = resolveFile("res:" + expectedFilePath);
 
-        final FileObject actual = resolveFile("zip:" + outputFile.getName().getPath()).resolveFile("document/template/welcome/Welcome.xsl");
+        assertTrue(welcomeXsl.exists());
+
+        new ZipArchive().zip(outputFile, new ZipFileEntry(welcomeXsl, expectedFilePath));
+
+        final FileObject actual = resolveFile("zip:" + outputFile.getName().getPath()).resolveFile(expectedFilePath);
 
         assertFileExists(actual);
 
-        assertThat(bytesFrom(actual), equalTo(bytesFrom(fileObject)));
-    }
-
-    @Test
-    public void shouldWriteZipFileContainingSingleFileFromSteam() throws Exception
-    {
-        final String expectedFilePath = "res:document/template/welcome/Welcome.xsl";
-
-        new ZipArchive().zip(outputFile, new ZipFileEntry(inputStreamFrom(expectedFilePath), "document/template/welcome"));
-
-        final FileObject actual = resolveFile("zip:" + outputFile.getName().getPath()).resolveFile("document/template/welcome/Welcome.xsl");
-
-        assertFileExists(actual);
-
-        assertThat(bytesFrom(actual), equalTo(bytesFrom(resolveFile(expectedFilePath))));
+        assertThat(bytesFrom(actual), equalTo(bytesFrom(welcomeXsl)));
     }
 
     @Test
     public void shouldExtractZipToOutputFolder() throws Exception
     {
-        final FileObject zipFile = resolveFile("res:zip/scheduleTemplate.zip");
+        final FileObject zipFile = resolveFile("res:zip/expected.zip");
 
-        FileObject zip = resolveFile("zip:" + zipFile.getName().getPath());
+        final FileObject zip = resolveFile("zip:" + zipFile.getName().getPath());
 
         final FileObject outputFolder = BASE_FOLDER;
 

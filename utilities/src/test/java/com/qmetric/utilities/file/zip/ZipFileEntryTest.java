@@ -17,29 +17,13 @@ import static org.junit.Assert.fail;
 public class ZipFileEntryTest
 {
     @Test
-    public void shouldSuccessfullyCreateZipFileEntryWhenFileObjectExistsAndEntryPathIsSubstringOfFilePath() throws Exception
+    public void shouldSuccessfullyCreateZipFileEntry() throws Exception
     {
-        final FileObject fileObject = resolveFile("res:zip/scheduleTemplate.zip");
+        final FileObject fileObject = resolveFile("res:zip/expected.zip");
 
-        final ZipFileEntry zipFileEntry = new ZipFileEntry(fileObject, "zip");
+        final ZipFileEntry zipFileEntry = new ZipFileEntry(fileObject, "zip/expected.zip");
 
-        assertThat(zipFileEntry.getZipEntryPath(), equalTo("zip/scheduleTemplate.zip"));
-    }
-
-    @Test
-    public void shouldFailWhenZipEntryPathIsNotFoundInFileEntryPath() throws Exception
-    {
-        final FileObject fileObject = resolveFile("res:zip/scheduleTemplate.zip");
-
-        try
-        {
-            new ZipFileEntry(fileObject, "document");
-            fail("Failed because an exception was expected due to Entry Path invalid");
-        }
-        catch (Exception e)
-        {
-            //expected
-        }
+        assertThat(zipFileEntry.getZipEntryPath(), equalTo("zip/expected.zip"));
     }
 
     @Test

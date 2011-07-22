@@ -18,7 +18,7 @@ public final class ZipFileEntry
 
     private final String zipEntryPath;
 
-    public ZipFileEntry(final FileObject fileObject, final String zipEntryRootPath)
+    public ZipFileEntry(final FileObject fileObject, final String zipEntryPath)
     {
         try
         {
@@ -30,7 +30,7 @@ public final class ZipFileEntry
             throw new RuntimeException(e);
         }
 
-        zipEntryPath = createZipEntryPath(fileObject, zipEntryRootPath);
+        this.zipEntryPath = zipEntryPath;
     }
 
     public ZipFileEntry(final InputStream inputStream, final String zipEntryPath)
@@ -40,19 +40,6 @@ public final class ZipFileEntry
         this.inputStream = inputStream;
 
         this.zipEntryPath = zipEntryPath;
-    }
-
-    private String createZipEntryPath(final FileObject fileObject, final String zipEntryRootPath)
-    {
-        final String filenameWithPath = fileObject.getName().getPath();
-
-        final int index = filenameWithPath.indexOf(zipEntryRootPath);
-
-        Validate.isTrue(index > 0,
-                        String.format("path [%s] does not contain zip root path [%s] \nIn order to correctly add entries into this zip a root path must be a substring of path.",
-                                      filenameWithPath, zipEntryRootPath));
-
-        return filenameWithPath.substring(index);
     }
 
     public String getZipEntryPath()
