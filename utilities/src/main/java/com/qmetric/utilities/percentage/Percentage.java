@@ -1,5 +1,7 @@
 package com.qmetric.utilities.percentage;
 
+import org.codehaus.jackson.annotate.JsonValue;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,6 +59,7 @@ public class Percentage implements Serializable
         return value.toPlainString();
     }
 
+    @JsonValue
     public String getPercentageFormattedString()
     {
         return getPercentageFormattedString(DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
