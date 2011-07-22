@@ -144,6 +144,18 @@ public class FileUtils
         }
     }
 
+        public static OutputStream outputStreamFrom(FileObject file)
+    {
+        try
+        {
+            return file.getContent().getOutputStream();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeIOException(e);
+        }
+    }
+
     public static FileSystemManager getFsManager()
     {
         try
