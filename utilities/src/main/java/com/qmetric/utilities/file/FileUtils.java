@@ -314,8 +314,24 @@ public class FileUtils
         }
     }
 
+    public static void closeQuietly(final FileObject fileObject)
+    {
+        if (fileObject != null)
+        {
+            try
+            {
+                fileObject.close();
+            }
+            catch (FileSystemException e)
+            {
+                // ignore
+            }
+        }
+    }
+
     private static int copy(InputStream in, OutputStream out) throws IOException
     {
         return copy(in, out);
     }
 }
+
