@@ -65,6 +65,7 @@ public final class SimpleErrorReportValve extends ValveBase
         catch (Throwable t)
         {
             // can't do any about that
+            System.out.println(t);
         }
     }
 
@@ -78,7 +79,7 @@ public final class SimpleErrorReportValve extends ValveBase
 
         // Do nothing on a 1xx, 2xx and 3xx status
         // Do nothing if anything has been written already
-        if (isNotError(response))
+        if (!isError(response) || hasWrittenContent(response))
         {
             return;
         }
@@ -115,9 +116,18 @@ public final class SimpleErrorReportValve extends ValveBase
         }
     }
 
-    private boolean isNotError(final Response response)
+    private boolean hasWrittenContent(final Response response)
     {
-        return (response.getStatus() < 400) || (response.getContentWritten() > 0);
+        final boolean hasContentBeenWritten = response.getContentWritten() > 0;
+
+        return hasContentBeenWritten;
+    }
+
+    private boolean isError(final Response response)
+    {
+        final boolean isErrorCode = response.getStatus() > 399;
+
+        return isErrorCode;
     }
 }
 
