@@ -144,7 +144,7 @@ public class FileUtils
         }
     }
 
-        public static OutputStream outputStreamFrom(FileObject file)
+    public static OutputStream outputStreamFrom(FileObject file)
     {
         try
         {
@@ -314,17 +314,23 @@ public class FileUtils
         }
     }
 
-    public static void closeQuietly(final FileObject fileObject)
+    public static void closeQuietly(final FileObject... files)
     {
-        if (fileObject != null)
+        if (files != null)
         {
-            try
+            for (FileObject fileObject : files)
             {
-                fileObject.close();
-            }
-            catch (FileSystemException e)
-            {
-                // ignore
+                if (fileObject != null)
+                {
+                    try
+                    {
+                        fileObject.close();
+                    }
+                    catch (FileSystemException e)
+                    {
+                        // ignore
+                    }
+                }
             }
         }
     }
