@@ -16,7 +16,8 @@ public class FileUtilsTest
 {
     private static final String EXPECTED_FILE_CONTENTS = "some test text";
 
-    private FileObject fileObject = mock(FileObject.class);
+    private FileObject fileObject1 = mock(FileObject.class);
+    private FileObject fileObject2 = mock(FileObject.class);
 
     @Test
     public void shouldReadTextFromVfsLocation()
@@ -27,9 +28,10 @@ public class FileUtilsTest
     @Test
     public void closeQuietly() throws Exception
     {
-        FileUtils.closeQuietly(fileObject);
+        FileUtils.closeQuietly(fileObject1, fileObject2);
 
-        verify(fileObject).close();
+        verify(fileObject1).close();
+        verify(fileObject2).close();
     }
 
     @Test
