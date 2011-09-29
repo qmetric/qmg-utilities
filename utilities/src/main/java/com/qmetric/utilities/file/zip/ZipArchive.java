@@ -1,5 +1,6 @@
 package com.qmetric.utilities.file.zip;
 
+import com.qmetric.utilities.file.FileUtils;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.io.IOUtils;
@@ -8,6 +9,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.provider.zip.ZipFileObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,16 +55,18 @@ public final class ZipArchive
     {
         Validate.notNull(zipFilePath, "Zip file cannot be null");
         Validate.notNull(outputFolder, "Output folder cannot be null");
-        FileObject zip = resolveFile("zip:" + zipFilePath);
+
         isTypeFolder(outputFolder);
+
+        final ZipFileObject zip = resolveZipFile(zipFilePath);
 
         try
         {
             final FileObject[] files = zip.findFiles(Selectors.SELECT_FILES);
 
-            for (FileObject file : files)
+            for (final FileObject file : files)
             {
-                FileObject destination = outputFolder.resolveFile(dropRootFromPathIfPresent(file));
+                final FileObject destination = outputFolder.resolveFile(dropRootFromPathIfPresent(file));
                 destination.copyFrom(file, Selectors.SELECT_SELF);
             }
         }
@@ -72,7 +76,6 @@ public final class ZipArchive
         }
         finally
         {
-            close(outputFolder);
             close(zip);
         }
     }
@@ -108,11 +111,12 @@ public final class ZipArchive
         return file.getName().getPathDecoded();
     }
 
-    private void close(final FileObject fileObject)
+    private void close(final ZipFileObject zip)
     {
         try
         {
-            fileObject.close();
+            FileUtils.closeQuietly(zip.getFileSystem().getParentLayer());
+            FileUtils.closeQuietly(zip);
         }
         catch (FileSystemException e)
         {
@@ -122,14 +126,7 @@ public final class ZipArchive
 
     private void close(final ZipArchiveOutputStream outputStream)
     {
-        try
-        {
-            outputStream.close();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+        IOUtils.closeQuietly(outputStream);
     }
 
     private void isTypeFolder(final FileObject outputFolder)
@@ -143,6 +140,11 @@ public final class ZipArchive
         {
             throw new RuntimeException(e);
         }
+    }
+
+    private ZipFileObject resolveZipFile(final FileObject zipFilePath)
+    {
+        return (ZipFileObject) resolveFile("zip:" + zipFilePath);
     }
 }
 
