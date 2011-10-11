@@ -26,12 +26,12 @@ public class FileUtils
      * @param vfsLocation The VFS location containing the text
      * @return A String containing the text
      */
-    public static String textFrom(String vfsLocation)
+    public String textFrom(String vfsLocation)
     {
         return new String(bytesFrom(vfsLocation));
     }
 
-    public static String textFrom(FileObject fileObject)
+    public String textFrom(FileObject fileObject)
     {
         try
         {
@@ -49,7 +49,7 @@ public class FileUtils
      * @param vfsLocation The VFS location containing the text
      * @return byte array containing contents of InputStream
      */
-    public static byte[] bytesFrom(String vfsLocation)
+    public byte[] bytesFrom(String vfsLocation)
     {
         return bytesFrom(inputStreamFrom(vfsLocation));
     }
@@ -60,7 +60,7 @@ public class FileUtils
      * @param inputStream InputStream to read from
      * @return byte array containing contents of InputStream
      */
-    public static byte[] bytesFrom(InputStream inputStream)
+    public byte[] bytesFrom(InputStream inputStream)
     {
         try
         {
@@ -72,7 +72,7 @@ public class FileUtils
         }
     }
 
-    public static byte[] bytesFrom(final FileObject file)
+    public byte[] bytesFrom(final FileObject file)
     {
         try
         {
@@ -90,7 +90,7 @@ public class FileUtils
      * @param vfsLocation VFS location to read from
      * @return InputStream for VFS location
      */
-    public static InputStream inputStreamFrom(String vfsLocation)
+    public InputStream inputStreamFrom(String vfsLocation)
     {
         try
         {
@@ -102,7 +102,7 @@ public class FileUtils
         }
     }
 
-    public static InputStream inputStreamFrom(FileObject fileObject)
+    public InputStream inputStreamFrom(FileObject fileObject)
     {
         try
         {
@@ -114,7 +114,7 @@ public class FileUtils
         }
     }
 
-    public static InputStream inputStreamFromString(final String value)
+    public InputStream inputStreamFromString(final String value)
     {
         try
         {
@@ -132,7 +132,7 @@ public class FileUtils
      * @param vfsLocation VFS location to read from
      * @return InputStream for VFS location
      */
-    public static OutputStream outputStreamFrom(String vfsLocation)
+    public OutputStream outputStreamFrom(String vfsLocation)
     {
         try
         {
@@ -144,7 +144,7 @@ public class FileUtils
         }
     }
 
-    public static OutputStream outputStreamFrom(FileObject file)
+    public OutputStream outputStreamFrom(FileObject file)
     {
         try
         {
@@ -156,7 +156,7 @@ public class FileUtils
         }
     }
 
-    public static FileSystemManager getFsManager()
+    public FileSystemManager getFsManager()
     {
         try
         {
@@ -173,7 +173,7 @@ public class FileUtils
         return fileSystemManager;
     }
 
-    public static FileContent getFileContent(String vfsLocation)
+    public FileContent getFileContent(String vfsLocation)
     {
         try
         {
@@ -185,7 +185,7 @@ public class FileUtils
         }
     }
 
-    public static FileObject resolveFile(String vfsLocation)
+    public FileObject resolveFile(String vfsLocation)
     {
         try
         {
@@ -197,12 +197,12 @@ public class FileUtils
         }
     }
 
-    public static FileObject resolveFile(URL url)
+    public FileObject resolveFile(URL url)
     {
         return resolveFile(url.toString());
     }
 
-    public static FileObject resolveFile(final FileObject parent, final String child)
+    public FileObject resolveFile(final FileObject parent, final String child)
     {
         try
         {
@@ -214,7 +214,7 @@ public class FileUtils
         }
     }
 
-    public static FileObject createFolder(final String vfsLocation)
+    public FileObject createFolder(final String vfsLocation)
     {
         final FileObject fileObject = resolveFile(vfsLocation);
         try
@@ -228,7 +228,7 @@ public class FileUtils
         return fileObject;
     }
 
-    public static FileObject createFolder(final FileObject parent, final String subFolder)
+    public FileObject createFolder(final FileObject parent, final String subFolder)
     {
         final FileObject newFolder = resolveFile(parent, subFolder);
         try
@@ -242,7 +242,7 @@ public class FileUtils
         return newFolder;
     }
 
-    public static FileObject createFile(final String vfsLocation)
+    public FileObject createFile(final String vfsLocation)
     {
         final FileObject fileObject = resolveFile(vfsLocation);
         try
@@ -256,7 +256,7 @@ public class FileUtils
         }
     }
 
-    public static FileObject createFile(final FileObject rootPath, final String filename)
+    public FileObject createFile(final FileObject rootPath, final String filename)
     {
         try
         {
@@ -272,7 +272,7 @@ public class FileUtils
         }
     }
 
-    public static FileObject[] find(final String filename, final FileObject folder)
+    public FileObject[] find(final String filename, final FileObject folder)
     {
         final FileObject[] files;
 
@@ -288,7 +288,7 @@ public class FileUtils
         return files;
     }
 
-    public static FileObject findFile(final String filename, final FileObject folder)
+    public FileObject findFile(final String filename, final FileObject folder)
     {
         final FileObject[] files = find(filename, folder);
 
@@ -302,7 +302,7 @@ public class FileUtils
         }
     }
 
-    public static void delete(final FileObject file)
+    public void delete(final FileObject file)
     {
         try
         {
@@ -314,7 +314,7 @@ public class FileUtils
         }
     }
 
-    public static void closeQuietly(final FileObject... files)
+    public void closeQuietly(final FileObject... files)
     {
         if (files != null)
         {
@@ -335,7 +335,7 @@ public class FileUtils
         }
     }
 
-    private static int copy(InputStream in, OutputStream out) throws IOException
+    private int copy(InputStream in, OutputStream out) throws IOException
     {
         return copy(in, out);
     }

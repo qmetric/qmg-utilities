@@ -1,9 +1,9 @@
 package com.qmetric.utilities.file;
 
 import org.apache.commons.vfs.FileObject;
+import org.junit.Before;
 import org.junit.Test;
 
-import static com.qmetric.utilities.file.FileUtils.textFrom;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -19,16 +19,24 @@ public class FileUtilsTest
     private FileObject fileObject1 = mock(FileObject.class);
     private FileObject fileObject2 = mock(FileObject.class);
 
+    private FileUtils fileUtils;
+
+    @Before
+    public void context()
+    {
+        fileUtils = new FileUtils();
+    }
+
     @Test
     public void shouldReadTextFromVfsLocation()
     {
-        assertThat(textFrom("res:test-file.txt"), equalTo(EXPECTED_FILE_CONTENTS));
+        assertThat(fileUtils.textFrom("res:test-file.txt"), equalTo(EXPECTED_FILE_CONTENTS));
     }
 
     @Test
     public void closeQuietly() throws Exception
     {
-        FileUtils.closeQuietly(fileObject1, fileObject2);
+        fileUtils.closeQuietly(fileObject1, fileObject2);
 
         verify(fileObject1).close();
         verify(fileObject2).close();
@@ -37,6 +45,6 @@ public class FileUtilsTest
     @Test
     public void closeQuietlyShouldHandleNullFileObject()
     {
-        FileUtils.closeQuietly(null);
+        fileUtils.closeQuietly(null);
     }
 }

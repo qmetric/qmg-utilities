@@ -1,29 +1,37 @@
 package com.qmetric.utilities.file.zip;
 
+import com.qmetric.utilities.file.FileUtils;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.provider.zip.ZipFileObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import static com.qmetric.utilities.file.FileUtils.bytesFrom;
-import static com.qmetric.utilities.file.FileUtils.createFolder;
-import static com.qmetric.utilities.file.FileUtils.inputStreamFrom;
-import static com.qmetric.utilities.file.FileUtils.resolveFile;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ZipArchiveTest
 {
-    private static final FileObject BASE_FOLDER = createFolder("/tmp/ZipArchiveITest");
+    private static FileObject BASE_FOLDER;
 
     private FileObject outputFile;
+
+    private FileUtils fileUtils;
 
     @Before
     public void context() throws Exception
     {
+        fileUtils = new FileUtils();
+
+        BASE_FOLDER = fileUtils.createFolder("/tmp/ZipArchiveITest");
+
         outputFile = BASE_FOLDER.resolveFile("actualFile.zip");
     }
 
@@ -32,29 +40,29 @@ public class ZipArchiveTest
     {
         final String expectedFilePath = "welcome/Welcome.xsl";
 
-        final FileObject welcomeXsl = resolveFile("res:" + expectedFilePath);
+        final FileObject welcomeXsl = fileUtils.resolveFile("res:" + expectedFilePath);
 
         assertTrue(welcomeXsl.exists());
 
-        new ZipArchive().zip(outputFile, new ZipFileEntry(welcomeXsl, expectedFilePath));
+        new ZipArchive(new FileUtils()).zip(outputFile, new ZipFileEntry(welcomeXsl, expectedFilePath));
 
-        final FileObject actual = resolveFile("zip:" + outputFile.getName().getPath()).resolveFile(expectedFilePath);
+        final FileObject actual = fileUtils.resolveFile("zip:" + outputFile.getName().getPath()).resolveFile(expectedFilePath);
 
         assertFileExists(actual);
 
-        assertThat(bytesFrom(actual), equalTo(bytesFrom(welcomeXsl)));
+        assertThat(fileUtils.bytesFrom(actual), equalTo(fileUtils.bytesFrom(welcomeXsl)));
     }
 
     @Test
     public void shouldExtractZipToOutputFolder() throws Exception
     {
-        final FileObject zipFile = resolveFile("res:zip/expected.zip");
+        final FileObject zipFile = fileUtils.resolveFile("res:zip/expected.zip");
 
-        final FileObject zip = resolveFile("zip:" + zipFile.getName().getPath());
+        final FileObject zip = fileUtils.resolveFile("zip:" + zipFile.getName().getPath());
 
         final FileObject outputFolder = BASE_FOLDER;
 
-        new ZipArchive().extract(zipFile, outputFolder);
+        new ZipArchive(new FileUtils()).extract(zipFile, outputFolder);
 
         final FileObject[] files = outputFolder.findFiles(Selectors.SELECT_FILES);
 
@@ -64,8 +72,29 @@ public class ZipArchiveTest
 
             final String actualPath = actual.getName().getPathDecoded().replaceFirst(outputFolder.getName().getPath(), "");
 
-            assertThat(bytesFrom(actual), equalTo(bytesFrom(zip.resolveFile(actualPath))));
+            assertThat(fileUtils.bytesFrom(actual), equalTo(fileUtils.bytesFrom(zip.resolveFile(actualPath))));
         }
+    }
+
+    @Test
+    public void shouldCloseFileObjectAfterExtract() throws Exception
+    {
+        final FileObject parentLayer = mock(FileObject.class);
+        final FileSystem fileSystem = mock(FileSystem.class);
+        when(fileSystem.getParentLayer()).thenReturn(parentLayer);
+        
+        final FileObject zipFileObject = mock(ZipFileObject.class);
+        when(zipFileObject.getFileSystem()).thenReturn(fileSystem);
+        when(zipFileObject.findFiles(Mockito.<org.apache.commons.vfs.FileSelector>any())).thenReturn(new FileObject[] {});
+
+        final FileUtils mockFileUtils = mock(FileUtils.class);
+
+        when(mockFileUtils.resolveFile(Mockito.anyString())).thenReturn(zipFileObject);
+
+        new ZipArchive(mockFileUtils).extract(zipFileObject, BASE_FOLDER);
+
+        Mockito.verify(mockFileUtils).closeQuietly(zipFileObject);
+        Mockito.verify(mockFileUtils).closeQuietly(parentLayer);
     }
 
     private void assertFileExists(final FileObject actual) throws FileSystemException

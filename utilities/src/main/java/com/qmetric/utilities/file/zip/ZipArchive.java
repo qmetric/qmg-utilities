@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
-import static com.qmetric.utilities.file.FileUtils.resolveFile;
-
 /**
  * Creates or extracts zip files.
  * <p/>
@@ -25,6 +23,13 @@ import static com.qmetric.utilities.file.FileUtils.resolveFile;
  */
 public final class ZipArchive
 {
+    private final FileUtils fileUtils;
+
+    public ZipArchive(final FileUtils fileUtils)
+    {
+        this.fileUtils = fileUtils;
+    }
+
     public void zip(final FileObject outputFile, final Collection<ZipFileEntry> entries)
     {
         zip(outputFile, entries.toArray(new ZipFileEntry[entries.size()]));
@@ -115,8 +120,8 @@ public final class ZipArchive
     {
         try
         {
-            FileUtils.closeQuietly(zip.getFileSystem().getParentLayer());
-            FileUtils.closeQuietly(zip);
+            fileUtils.closeQuietly(zip.getFileSystem().getParentLayer());
+            fileUtils.closeQuietly(zip);
         }
         catch (FileSystemException e)
         {
@@ -144,7 +149,7 @@ public final class ZipArchive
 
     private ZipFileObject resolveZipFile(final FileObject zipFilePath)
     {
-        return (ZipFileObject) resolveFile("zip:" + zipFilePath);
+        return (ZipFileObject) fileUtils.resolveFile("zip:" + zipFilePath);
     }
 }
 

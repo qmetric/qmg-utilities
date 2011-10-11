@@ -1,11 +1,12 @@
 package com.qmetric.utilities.file.zip;
 
+import com.qmetric.utilities.file.FileUtils;
 import org.apache.commons.vfs.FileObject;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
 
-import static com.qmetric.utilities.file.FileUtils.resolveFile;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -16,10 +17,18 @@ import static org.junit.Assert.fail;
 
 public class ZipFileEntryTest
 {
+    private FileUtils fileUtils;
+
+    @Before
+    public void context()
+    {
+        fileUtils = new FileUtils();
+    }
+
     @Test
     public void shouldSuccessfullyCreateZipFileEntry() throws Exception
     {
-        final FileObject fileObject = resolveFile("res:zip/expected.zip");
+        final FileObject fileObject = fileUtils.resolveFile("res:zip/expected.zip");
 
         final ZipFileEntry zipFileEntry = new ZipFileEntry(fileObject, "zip/expected.zip");
 
@@ -29,7 +38,7 @@ public class ZipFileEntryTest
     @Test
     public void shouldFailWhenFileDoesNotExist() throws Exception
     {
-        final FileObject fileObject = resolveFile("/83475eqklrhlhwdr/sfhjwer98djbfbkfg.zkalhsdfhkjip");
+        final FileObject fileObject = fileUtils.resolveFile("/83475eqklrhlhwdr/sfhjwer98djbfbkfg.zkalhsdfhkjip");
 
         try
         {
@@ -64,7 +73,7 @@ public class ZipFileEntryTest
     {
         try
         {
-            new ZipFileEntry(resolveFile("res:zip"), "zip");
+            new ZipFileEntry(fileUtils.resolveFile("res:zip"), "zip");
 
             fail("Failed because an exception was expected because fileObject must be of type FILE. ");
         }
