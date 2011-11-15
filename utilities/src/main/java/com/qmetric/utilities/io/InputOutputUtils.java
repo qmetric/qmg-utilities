@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 // simple wrapper to defeat "static cling" and make testing simpler.
-public class IoUtils
+public class InputOutputUtils
 {
     public byte[] toByteArray(final ByteArrayInputStream byteArrayInputStream) throws IOException
     {
