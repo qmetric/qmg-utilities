@@ -43,7 +43,7 @@ import java.security.SecureRandom;
  * @author Damien Miller
  * @version 0.2
  */
-public final class BCrypt
+final class BCrypt
 {
     // BCrypt parameters
 

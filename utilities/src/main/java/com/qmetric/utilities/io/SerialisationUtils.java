@@ -5,7 +5,7 @@ package com.qmetric.utilities.io;
 import java.io.Serializable;
 
 // simple wrapper to defeat "static cling" and make testing simpler.
-public final class SerialisationUtils
+public class SerialisationUtils
 {
     public byte[] serialise(final Serializable o)
     {
