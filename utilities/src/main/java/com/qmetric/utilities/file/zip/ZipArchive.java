@@ -21,7 +21,7 @@ import java.util.Collection;
  * <p/>
  * Created: Jul 12, 2011, Author: Dom Farr
  */
-public final class ZipArchive
+public class ZipArchive
 {
     private final FileUtils fileUtils;
 

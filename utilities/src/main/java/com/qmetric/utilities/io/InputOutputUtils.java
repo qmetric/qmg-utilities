@@ -20,12 +20,12 @@ public class InputOutputUtils
         return org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
     }
 
-    public void closeQuietly(final InputStream inputStream) throws IOException
+    public void closeQuietly(final InputStream inputStream)
     {
         org.apache.commons.io.IOUtils.closeQuietly(inputStream);
     }
 
-    public void closeQuietly(final OutputStream outputStream) throws IOException
+    public void closeQuietly(final OutputStream outputStream)
     {
         org.apache.commons.io.IOUtils.closeQuietly(outputStream);
     }
