@@ -87,8 +87,8 @@
     </distributionManagement>
 
     <scm>
-        <url>git://github.com/qmg-git/qmg-utilities.git</url>
-        <connection>scm:git:git://github.com/qmg-git/qmg-utilities.git</connection>
-        <developerConnection>scm:git:git@github.com:qmg-git/qmg-utilities.git</developerConnection>
+        <url>git://github.com/qmetric/qmg-utilities.git</url>
+        <connection>scm:git:git://github.com/qmetric/qmg-utilities.git</connection>
+        <developerConnection>scm:git:git@github.com:qmetric/qmg-utilities.git</developerConnection>
     </scm>
 </project>
