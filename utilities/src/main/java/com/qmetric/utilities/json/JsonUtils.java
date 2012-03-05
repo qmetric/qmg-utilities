@@ -1,5 +1,6 @@
 package com.qmetric.utilities.json;
 
+import com.qmetric.utilities.file.RuntimeIOException;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.MappingJsonFactory;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -14,19 +15,26 @@ public class JsonUtils
      *
      * @param obj Object to serialize.
      * @return Json string.
-     * @throws IOException Exception occurred during serialization.
+     * @throws RuntimeIOException If an exception occurred during serialization. This is an unrecoverable scenario - the same string will continue to
+     * fail serialization.
      */
-    public String serializeToJson(final Object obj) throws IOException
+    public String serializeToJson(final Object obj)
     {
-        // Parse questions into JSON, for use by the question branching javascript logic.
-        final StringWriter sw = new StringWriter();
-        final ObjectMapper mapper = new ObjectMapper();
-        final MappingJsonFactory jsonFactory = new MappingJsonFactory();
-        final JsonGenerator jsonGenerator = jsonFactory.createJsonGenerator(sw);
+        try
+        {
+            final StringWriter sw = new StringWriter();
+            final ObjectMapper mapper = new ObjectMapper();
+            final MappingJsonFactory jsonFactory = new MappingJsonFactory();
+            final JsonGenerator jsonGenerator = jsonFactory.createJsonGenerator(sw);
 
-        mapper.writeValue(jsonGenerator, obj);
-        sw.close();
+            mapper.writeValue(jsonGenerator, obj);
+            sw.close();
 
-        return sw.getBuffer().toString();
+            return sw.getBuffer().toString();
+        }
+        catch (final IOException e)
+        {
+            throw new RuntimeIOException(e);
+        }
     }
 }
