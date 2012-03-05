@@ -7,18 +7,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException;
 import java.io.StringWriter;
 
-/**
- * JSON utilities.
- */
-public final class JsonUtilities
+public class JsonUtils
 {
-    /**
-     * Default hidden constructor.
-     */
-    private JsonUtilities()
-    {
-    }
-
     /**
      * Serialize an object to a JSON string.
      *
@@ -26,7 +16,7 @@ public final class JsonUtilities
      * @return Json string.
      * @throws IOException Exception occurred during serialization.
      */
-    public static String serializeToJson(final Object obj) throws IOException
+    public String serializeToJson(final Object obj) throws IOException
     {
         // Parse questions into JSON, for use by the question branching javascript logic.
         final StringWriter sw = new StringWriter();
