@@ -1,5 +1,6 @@
 package com.qmetric.utilities.money;
 
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonValue;
 
 import java.io.Serializable;
@@ -142,6 +143,11 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
         final BigDecimal decimal = scale(this.value);
 
         return UK_CURRENCY_INSTANCE.format(decimal);
+    }
+    
+    public String getCurrencyFormattedStringWithoutDecimal()
+    {
+        return StringUtils.substringBefore(getCurrencyFormattedString(), ".");
     }
 
     @Override
