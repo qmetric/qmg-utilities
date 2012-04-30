@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class MonetaryValueTest
@@ -132,9 +132,10 @@ public class MonetaryValueTest
     }
 
     @Test
-    public void shouldBeLessThan()
+    public void shouldBeLessThanOrEqual()
     {
-        assertThat(ONE.compareTo(TWO), lessThan(0));
+        assertThat(ONE.lessThanOrEqualTo(TWO), is(true));
+        assertThat(ONE.lessThanOrEqualTo(ONE), is(true));
     }
 
     @Test
@@ -238,5 +239,12 @@ public class MonetaryValueTest
         final String json = new JsonUtils().serializeToJson(ONE);
 
         assertThat(json, equalTo("\"" + ONE.getCurrencyFormattedString() + "\""));
+    }
+
+    @Test
+    public void shouldBeLessThan()
+    {
+        assertThat(ONE.lessThan(TWO), is(true));
+        assertThat(ONE.lessThan(ONE), is(false));
     }
 }
