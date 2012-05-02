@@ -334,10 +334,5 @@ public class FileUtils
             }
         }
     }
-
-    private int copy(InputStream in, OutputStream out) throws IOException
-    {
-        return copy(in, out);
-    }
 }
 
