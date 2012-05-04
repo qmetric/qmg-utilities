@@ -40,20 +40,7 @@
             <version>${commons-vfs.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.intridea.io</groupId>
-            <artifactId>vfs-s3</artifactId>
-            <version>${vfs-s3.version}</version>
-        </dependency>
-
         <!-- test scope -->
-
-        <dependency>
-            <groupId>net.java.dev.jets3t</groupId>
-            <artifactId>jets3t</artifactId>
-            <version>${jets3t.version}</version>
-            <scope>test</scope> <!-- required by FileUtilsTest -->
-        </dependency>
 
         <dependency>
             <groupId>org.hamcrest</groupId>
