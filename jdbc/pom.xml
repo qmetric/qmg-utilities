@@ -17,6 +17,18 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.qmetric.utilities</groupId>
+            <artifactId>math</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.qmetric.utilities</groupId>
+            <artifactId>money</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>${joda-time.version}</version>
