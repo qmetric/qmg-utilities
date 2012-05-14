@@ -38,7 +38,7 @@
         <commons-compress.version>1.0</commons-compress.version>
         <commons-dbcp.version>1.2.2</commons-dbcp.version>
         <commons-io.version>1.3.2</commons-io.version>
-        <commons-lang.version>2.5</commons-lang.version>
+        <commons-lang.version>3.1</commons-lang.version>
         <commons-vfs.version>1.0</commons-vfs.version>
         <dom4j.version>1.6.1</dom4j.version>
         <dozer.version>5.2.2</dozer.version>

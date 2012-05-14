@@ -1,6 +1,6 @@
 package com.qmetric.utilities.money;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonValue;
 
 import java.io.Serializable;

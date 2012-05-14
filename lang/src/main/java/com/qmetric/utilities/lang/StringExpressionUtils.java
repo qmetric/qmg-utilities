@@ -1,6 +1,6 @@
 package com.qmetric.utilities.lang;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 import java.util.regex.Pattern;

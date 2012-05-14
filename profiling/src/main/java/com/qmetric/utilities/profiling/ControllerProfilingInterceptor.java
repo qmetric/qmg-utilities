@@ -3,7 +3,7 @@
 package com.qmetric.utilities.profiling;
 
 import com.qmetric.utilities.time.DateTimeSource;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.joda.time.DateTime;

@@ -9,11 +9,11 @@ public class SerialisationUtils
 {
     public byte[] serialise(final Serializable o)
     {
-        return org.apache.commons.lang.SerializationUtils.serialize(o);
+        return org.apache.commons.lang3.SerializationUtils.serialize(o);
     }
 
     public Object deserialise(final byte[] bytes)
     {
-        return org.apache.commons.lang.SerializationUtils.deserialize(bytes);
+        return org.apache.commons.lang3.SerializationUtils.deserialize(bytes);
     }
 }

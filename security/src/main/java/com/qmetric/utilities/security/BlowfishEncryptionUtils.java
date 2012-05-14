@@ -2,7 +2,7 @@
 
 package com.qmetric.utilities.security;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 // simple wrapper to defeat "static cling" and make testing simpler.
 public class BlowfishEncryptionUtils

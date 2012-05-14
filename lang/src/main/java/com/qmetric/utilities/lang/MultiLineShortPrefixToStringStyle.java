@@ -2,8 +2,8 @@
 
 package com.qmetric.utilities.lang;
 
-import org.apache.commons.lang.SystemUtils;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public final class MultiLineShortPrefixToStringStyle extends ToStringStyle
 {

@@ -1,6 +1,6 @@
 package com.qmetric.utilities.web;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 public final class SpringUtils
