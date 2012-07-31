@@ -21,7 +21,6 @@
         <module>money</module>
         <module>poi</module>
         <module>profiling</module>
-        <module>security</module>
         <module>time</module>
         <module>tomcat-error-report-valve</module>
         <module>util</module>
