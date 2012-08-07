@@ -1,10 +1,13 @@
 package com.qmetric.utilities.file.zip;
 
 import com.qmetric.utilities.file.FileUtils;
+import com.qmetric.utilities.io.IOUtils;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.zip.ZipFileObject;
 import org.junit.After;
 import org.junit.Before;
@@ -25,10 +28,14 @@ public class ZipArchiveTest
 
     private FileUtils fileUtils;
 
+    private IOUtils ioUtils = new IOUtils();
+
     @Before
     public void context() throws Exception
     {
-        fileUtils = new FileUtils();
+        // use the real file system
+        final FileSystemManager fileSystemManager = VFS.getManager();;
+        fileUtils = new FileUtils(fileSystemManager, ioUtils);
 
         BASE_FOLDER = fileUtils.createFolder("/tmp/ZipArchiveITest");
 
@@ -44,7 +51,7 @@ public class ZipArchiveTest
 
         assertTrue(welcomeXsl.exists());
 
-        new ZipArchive(new FileUtils()).zip(outputFile, new ZipFileEntry(welcomeXsl, expectedFilePath));
+        new ZipArchive(fileUtils).zip(outputFile, new ZipFileEntry(welcomeXsl, expectedFilePath));
 
         final FileObject actual = fileUtils.resolveFile("zip:" + outputFile.getName().getPath()).resolveFile(expectedFilePath);
 
@@ -62,7 +69,7 @@ public class ZipArchiveTest
 
         final FileObject outputFolder = BASE_FOLDER;
 
-        new ZipArchive(new FileUtils()).extract(zipFile, outputFolder);
+        new ZipArchive(fileUtils).extract(zipFile, outputFolder);
 
         final FileObject[] files = outputFolder.findFiles(Selectors.SELECT_FILES);
 
@@ -82,7 +89,7 @@ public class ZipArchiveTest
         final FileObject parentLayer = mock(FileObject.class);
         final FileSystem fileSystem = mock(FileSystem.class);
         when(fileSystem.getParentLayer()).thenReturn(parentLayer);
-        
+
         final FileObject zipFileObject = mock(ZipFileObject.class);
         when(zipFileObject.getFileSystem()).thenReturn(fileSystem);
         when(zipFileObject.findFiles(Mockito.<org.apache.commons.vfs.FileSelector>any())).thenReturn(new FileObject[] {});

@@ -6,8 +6,15 @@ import org.apache.commons.vfs.VFS;
 
 public class VfsUtils
 {
-    public FileSystemManager getFileSystemManager() throws FileSystemException
+    public FileSystemManager getFileSystemManager()
     {
-        return VFS.getManager();
+        try
+        {
+            return VFS.getManager();
+        }
+        catch (final FileSystemException e)
+        {
+            throw new RuntimeIOException(e);
+        }
     }
 }

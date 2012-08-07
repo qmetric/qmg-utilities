@@ -1,12 +1,11 @@
 package com.qmetric.utilities.file;
 
-import org.apache.commons.io.IOUtils;
+import com.qmetric.utilities.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.VFS;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +17,15 @@ import static org.apache.commons.io.IOUtils.toByteArray;
 
 public class FileUtils
 {
-    private static FileSystemManager fileSystemManager;
+    private final FileSystemManager fileSystemManager;
+
+    private final IOUtils ioUtils;
+
+    public FileUtils(final FileSystemManager fileSystemManager, final IOUtils ioUtils)
+    {
+        this.fileSystemManager = fileSystemManager;
+        this.ioUtils = ioUtils;
+    }
 
     /**
      * Get text from a apache vfs location. example, from a resource location res:myfile.xml
@@ -26,18 +33,18 @@ public class FileUtils
      * @param vfsLocation The VFS location containing the text
      * @return A String containing the text
      */
-    public String textFrom(String vfsLocation)
+    public String textFrom(final String vfsLocation)
     {
         return new String(bytesFrom(vfsLocation));
     }
 
-    public String textFrom(FileObject fileObject)
+    public String textFrom(final FileObject fileObject)
     {
         try
         {
             return new String(bytesFrom(fileObject), "UTF-8");
         }
-        catch (UnsupportedEncodingException e)
+        catch (final UnsupportedEncodingException e)
         {
             throw new RuntimeException(e);
         }
@@ -49,7 +56,7 @@ public class FileUtils
      * @param vfsLocation The VFS location containing the text
      * @return byte array containing contents of InputStream
      */
-    public byte[] bytesFrom(String vfsLocation)
+    public byte[] bytesFrom(final String vfsLocation)
     {
         return bytesFrom(inputStreamFrom(vfsLocation));
     }
@@ -60,13 +67,13 @@ public class FileUtils
      * @param inputStream InputStream to read from
      * @return byte array containing contents of InputStream
      */
-    public byte[] bytesFrom(InputStream inputStream)
+    public byte[] bytesFrom(final InputStream inputStream)
     {
         try
         {
             return toByteArray(inputStream);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new RuntimeException(e);
         }
@@ -78,7 +85,7 @@ public class FileUtils
         {
             return toByteArray(file.getContent().getInputStream());
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new RuntimeException(e);
         }
@@ -90,25 +97,25 @@ public class FileUtils
      * @param vfsLocation VFS location to read from
      * @return InputStream for VFS location
      */
-    public InputStream inputStreamFrom(String vfsLocation)
+    public InputStream inputStreamFrom(final String vfsLocation)
     {
         try
         {
             return getFileContent(vfsLocation).getInputStream();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeIOException(e);
         }
     }
 
-    public InputStream inputStreamFrom(FileObject fileObject)
+    public InputStream inputStreamFrom(final FileObject fileObject)
     {
         try
         {
             return fileObject.getContent().getInputStream();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeIOException(e);
         }
@@ -118,7 +125,7 @@ public class FileUtils
     {
         try
         {
-            return IOUtils.toInputStream(value, "UTF-8");
+            return ioUtils.toInputStream(value, "UTF-8");
         }
         catch (IOException e)
         {
@@ -132,19 +139,19 @@ public class FileUtils
      * @param vfsLocation VFS location to read from
      * @return InputStream for VFS location
      */
-    public OutputStream outputStreamFrom(String vfsLocation)
+    public OutputStream outputStreamFrom(final String vfsLocation)
     {
         try
         {
             return getFileContent(vfsLocation).getOutputStream();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeIOException(e);
         }
     }
 
-    public OutputStream outputStreamFrom(FileObject file)
+    public OutputStream outputStreamFrom(final FileObject file)
     {
         try
         {
@@ -156,44 +163,42 @@ public class FileUtils
         }
     }
 
-    public FileSystemManager getFsManager()
-    {
-        try
-        {
-            if (fileSystemManager == null)
-            {
-                fileSystemManager = VFS.getManager();
-            }
-        }
-        catch (FileSystemException e)
-        {
-            throw new RuntimeIOException(e);
-        }
-
-        return fileSystemManager;
-    }
-
-    public FileContent getFileContent(String vfsLocation)
+    public FileContent getFileContent(final String vfsLocation)
     {
         try
         {
             return resolveFile(vfsLocation).getContent();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeIOException(e);
         }
     }
 
-    public FileObject resolveFile(String vfsLocation)
+    public FileObject resolveFile(final String vfsLocation)
     {
         try
         {
-            return getFsManager().resolveFile(vfsLocation);
+            return fileSystemManager.resolveFile(vfsLocation);
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeIOException(e);
+        }
+    }
+
+    public int copyFileToStream(final OutputStream outputStream, final String vfsLocation) throws IOException
+    {
+        FileObject sourceFile = null;
+        try
+        {
+            sourceFile = fileSystemManager.resolveFile(vfsLocation);
+
+            return ioUtils.copy(sourceFile.getContent().getInputStream(), outputStream);
+        }
+        finally
+        {
+            closeQuietly(sourceFile);
         }
     }
 
@@ -208,7 +213,7 @@ public class FileUtils
         {
             return parent.resolveFile(child);
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e);
         }
@@ -221,7 +226,7 @@ public class FileUtils
         {
             fileObject.createFolder();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e);
         }
@@ -235,7 +240,7 @@ public class FileUtils
         {
             newFolder.createFolder();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e);
         }
@@ -250,7 +255,7 @@ public class FileUtils
             fileObject.createFile();
             return fileObject;
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e);
         }
@@ -266,7 +271,7 @@ public class FileUtils
 
             return fileObject;
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e);
         }
@@ -280,7 +285,7 @@ public class FileUtils
         {
             files = folder.findFiles(new FileSelector(filename));
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e);
         }
@@ -308,7 +313,7 @@ public class FileUtils
         {
             file.delete();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e);
         }
@@ -326,7 +331,7 @@ public class FileUtils
                     {
                         fileObject.close();
                     }
-                    catch (FileSystemException e)
+                    catch (final FileSystemException e)
                     {
                         // ignore
                     }
@@ -335,4 +340,3 @@ public class FileUtils
         }
     }
 }
-

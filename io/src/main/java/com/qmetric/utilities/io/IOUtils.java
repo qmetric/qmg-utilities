@@ -29,4 +29,9 @@ public class IOUtils
     {
         org.apache.commons.io.IOUtils.closeQuietly(outputStream);
     }
+
+    public InputStream toInputStream(final String value, final String encoding) throws IOException
+    {
+        return org.apache.commons.io.IOUtils.toInputStream(value, encoding);
+    }
 }

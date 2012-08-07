@@ -1,6 +1,10 @@
 package com.qmetric.utilities.poi;
 
 import com.qmetric.utilities.file.FileUtils;
+import com.qmetric.utilities.io.IOUtils;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.VFS;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Before;
@@ -21,10 +25,14 @@ public class WorkBookReaderTest
 
     private WorkBookReader workBookReader;
 
+    private IOUtils ioUtils = new IOUtils();
+
     @Before
-    public void init()
+    public void init() throws FileSystemException
     {
-        workBookReader = new WorkBookReader(new FileUtils());
+        // use the real file system
+        final FileSystemManager fileSystemManager = VFS.getManager();
+        workBookReader = new WorkBookReader(new FileUtils(fileSystemManager, ioUtils));
     }
 
     @Test

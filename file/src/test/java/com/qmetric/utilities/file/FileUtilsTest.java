@@ -1,37 +1,42 @@
 package com.qmetric.utilities.file;
 
+import com.qmetric.utilities.io.IOUtils;
+import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.VFS;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-/**
- * Created by IntelliJ IDEA. User: dfarr Date: Jul 28, 2010 Time: 11:21:01 AM To change this template use File | Settings | File Templates.
- */
 public class FileUtilsTest
 {
     private static final String EXPECTED_FILE_CONTENTS = "some test text";
 
-    private FileObject fileObject1 = mock(FileObject.class);
-    private FileObject fileObject2 = mock(FileObject.class);
+    private static final String FILE_PATH = "filePath/";
 
-    private FileUtils fileUtils;
+    private OutputStream outputStream = mock(OutputStream.class);
 
-    @Before
-    public void context()
-    {
-        fileUtils = new FileUtils();
-    }
+    private final FileObject fileObject1 = mock(FileObject.class);
 
-    @Test
-    public void shouldReadTextFromVfsLocation()
-    {
-        assertThat(fileUtils.textFrom("res:test-file.txt"), equalTo(EXPECTED_FILE_CONTENTS));
-    }
+    private final FileObject fileObject2 = mock(FileObject.class);
+
+    private final IOUtils ioUtils = mock(IOUtils.class);
+
+    private final FileSystemManager fileSystemManager = mock(FileSystemManager.class);
+
+    private FileUtils fileUtils = new FileUtils(fileSystemManager, ioUtils);
 
     @Test
     public void closeQuietly() throws Exception
@@ -46,5 +51,34 @@ public class FileUtilsTest
     public void closeQuietlyShouldHandleNullFileObject()
     {
         fileUtils.closeQuietly(null);
+    }
+
+    @Test
+    public void shouldCopySourceFileContentsToOutputStream() throws Exception
+    {
+        final FileContent fileContent = mock(FileContent.class);
+        final InputStream inputStream = mock(InputStream.class);
+        when(fileObject1.getContent()).thenReturn(fileContent);
+        when(fileContent.getInputStream()).thenReturn(inputStream);
+        when(fileSystemManager.resolveFile(FILE_PATH)).thenReturn(fileObject1);
+
+        fileUtils.copyFileToStream(outputStream, FILE_PATH);
+
+        verify(fileSystemManager).resolveFile(FILE_PATH);
+        verify(ioUtils).copy(inputStream, outputStream);
+    }
+
+    @Test
+    public void shouldCloseSourceFileToEnsureResourcesAreClearedUp() throws Exception
+    {
+        final FileContent fileContent = mock(FileContent.class);
+        final InputStream inputStream = mock(InputStream.class);
+        when(fileObject1.getContent()).thenReturn(fileContent);
+        when(fileContent.getInputStream()).thenReturn(inputStream);
+        when(fileSystemManager.resolveFile(FILE_PATH)).thenReturn(fileObject1);
+
+        fileUtils.copyFileToStream(outputStream, FILE_PATH);
+
+        verify(fileObject1).close();
     }
 }
