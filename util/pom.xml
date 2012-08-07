@@ -11,7 +11,7 @@
     <parent>
         <artifactId>qmg-utilities</artifactId>
         <groupId>com.qmetric.utilities</groupId>
-        <version>3.8-SNAPSHOT</version>
+        <version>3.8</version>
     </parent>
 
     <dependencies>
