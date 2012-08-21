@@ -16,7 +16,6 @@
         <module>jdbc</module>
         <module>json</module>
         <module>lang</module>
-        <module>logging</module>
         <module>math</module>
         <module>money</module>
         <module>poi</module>
