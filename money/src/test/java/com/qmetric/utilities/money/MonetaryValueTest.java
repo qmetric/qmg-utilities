@@ -1,6 +1,6 @@
 package com.qmetric.utilities.money;
 
-import com.qmetric.utilities.json.JsonUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -236,7 +236,8 @@ public class MonetaryValueTest
     @Test
     public void shouldSerialiseMonetaryValueToJson() throws Exception
     {
-        final String json = new JsonUtils().serializeToJson(ONE);
+//        final String json = new JsonUtils().serializeToJson(ONE);
+        final String json = new ObjectMapper().writeValueAsString(ONE);
 
         assertThat(json, equalTo("\"" + ONE.getCurrencyFormattedString() + "\""));
     }

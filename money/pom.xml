@@ -28,14 +28,13 @@
             <version>${jackson.version}</version>
         </dependency>
 
-        <!-- test scope -->
-
         <dependency>
-            <groupId>com.qmetric.utilities</groupId>
-            <artifactId>json</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-lgpl</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
+
+        <!-- test scope -->
 
         <dependency>
             <groupId>org.hamcrest</groupId>
