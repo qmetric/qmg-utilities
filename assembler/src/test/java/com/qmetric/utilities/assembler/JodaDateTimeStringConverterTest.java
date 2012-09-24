@@ -1,6 +1,5 @@
 package com.qmetric.utilities.assembler;
 
-import com.qmetric.utilities.assembler.JodaDateTimeConverter;
 import org.dozer.MappingException;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -15,28 +14,28 @@ import org.springframework.test.util.ReflectionTestUtils;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class JodaDateTimeConverterTest
+public class JodaDateTimeStringConverterTest
 {
-    final JodaDateTimeConverter converter = new JodaDateTimeConverter();
+    final JodaDateTimeStringConverter jodaDateTimeStringConverter = new JodaDateTimeStringConverter();
 
     private static final DateTime TEST_DATE_TIME = new DateTime().withDayOfMonth(1).withMonthOfYear(10).withYear(2011);
 
     @Test
     public void shouldReturnNullIfSourceIsNull()
     {
-        assertThat(converter.convert(null, null, String.class, DateTime.class), equalTo(null));
+        assertThat(jodaDateTimeStringConverter.convert(null, null, String.class, DateTime.class), equalTo(null));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenStringFormatIncorrect()
     {
-        converter.convert(null, "string", DateTime.class, String.class);
+        jodaDateTimeStringConverter.convert(null, "string", DateTime.class, String.class);
     }
 
     @Test(expected = MappingException.class)
     public void shouldThrowExceptionWhenConvertingWithOtherObjectTypes()
     {
-        converter.convert(null, true, String.class, Boolean.class);
+        jodaDateTimeStringConverter.convert(null, true, String.class, Boolean.class);
     }
 
     @Test
@@ -44,7 +43,7 @@ public class JodaDateTimeConverterTest
     {
         final DateTime dateTime = TEST_DATE_TIME;
         final String dateTimeString = "01/10/2011";
-        final String result = (String) converter.convert(null, dateTime, String.class, DateTime.class);
+        final String result = (String) jodaDateTimeStringConverter.convert(null, dateTime, String.class, DateTime.class);
         assertThat(result, equalTo(dateTimeString));
     }
 
@@ -53,7 +52,7 @@ public class JodaDateTimeConverterTest
     {
         final DateTime expectedDateTime = TEST_DATE_TIME;
         final String exampleDateAsString = "01/10/2011";
-        final DateTime result = (DateTime) converter.convert(null, exampleDateAsString, DateTime.class, String.class);
+        final DateTime result = (DateTime) jodaDateTimeStringConverter.convert(null, exampleDateAsString, DateTime.class, String.class);
         assertThat(result, isSameDay(expectedDateTime));
     }
 
@@ -62,7 +61,7 @@ public class JodaDateTimeConverterTest
     {
         final DateTime expectedDateTime = new DateTime().withDayOfMonth(1).withMonthOfYear(9).withYear(2011);
         final String exampleDateAsString = "1/9/2011";
-        final DateTime result = (DateTime) converter.convert(null, exampleDateAsString, DateTime.class, String.class);
+        final DateTime result = (DateTime) jodaDateTimeStringConverter.convert(null, exampleDateAsString, DateTime.class, String.class);
         assertThat(result, isSameDay(expectedDateTime));
     }
 
@@ -71,16 +70,16 @@ public class JodaDateTimeConverterTest
     {
         final DateTimeFormatter expectedDateTimeFormatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 
-        converter.setParameter(null);
+        jodaDateTimeStringConverter.setParameter(null);
 
-        assertThat((DateTimeFormatter) ReflectionTestUtils.getField(converter, "date_format"), equalTo(expectedDateTimeFormatter));
+        assertThat((DateTimeFormatter) ReflectionTestUtils.getField(jodaDateTimeStringConverter, "date_format"), equalTo(expectedDateTimeFormatter));
     }
 
     @Test
     public void shouldUseGivenParamAsDateTimeFormatPattern()
     {
-        converter.setParameter("dd-MM-yyyy");
-        final String result = (String) converter.convert(null, TEST_DATE_TIME, String.class, DateTime.class);
+        jodaDateTimeStringConverter.setParameter("dd-MM-yyyy");
+        final String result = (String) jodaDateTimeStringConverter.convert(null, TEST_DATE_TIME, String.class, DateTime.class);
         assertThat(result, equalTo("01-10-2011"));
     }
 
