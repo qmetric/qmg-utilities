@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonValue;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
 public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
@@ -37,7 +38,20 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
 
     public MonetaryValue(String val)
     {
-        value = new BigDecimal(val);
+        try
+        {
+            value = new BigDecimal(val);
+        }
+        catch(NumberFormatException ex) {
+            try
+            {
+                value = new BigDecimal(UK_CURRENCY_INSTANCE.parse(val).doubleValue());
+            }
+            catch (ParseException e)
+            {
+                throw ex;
+            }
+        }
     }
 
     public MonetaryValue(final BigDecimal value)
