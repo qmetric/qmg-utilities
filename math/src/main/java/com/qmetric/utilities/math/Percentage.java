@@ -1,14 +1,9 @@
 package com.qmetric.utilities.math;
 
-import org.codehaus.jackson.annotate.JsonValue;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/**
- * Created by: dwood Date: Jul 21, 2011 Time: 5:17:38 PM
- */
 public class Percentage implements Serializable
 {
     public static final Percentage ZERO = new Percentage(BigDecimal.ZERO, BigDecimal.ZERO);
@@ -59,7 +54,6 @@ public class Percentage implements Serializable
         return value.toPlainString();
     }
 
-    @JsonValue
     public String getPercentageFormattedString()
     {
         return getPercentageFormattedString(DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);

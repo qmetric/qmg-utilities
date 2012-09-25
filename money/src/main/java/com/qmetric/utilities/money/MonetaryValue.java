@@ -1,7 +1,6 @@
 package com.qmetric.utilities.money;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.annotate.JsonValue;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -156,7 +155,6 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
         return scale(value).hashCode();
     }
 
-    @JsonValue
     public String getCurrencyFormattedString()
     {
         final BigDecimal decimal = scale(this.value);

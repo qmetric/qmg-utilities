@@ -1,6 +1,5 @@
 package com.qmetric.utilities.money;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -236,37 +235,37 @@ public class MonetaryValueTest
         assertThat(base.greaterThanOrEqualTo(new MonetaryValue("10.00")), equalTo(false));
     }
 
-    @Test
-    public void shouldSerialiseMonetaryValueToJson() throws Exception
-    {
-        //        final String json = new JsonUtils().serializeToJson(ONE);
-        final String json = new ObjectMapper().writeValueAsString(ONE);
-
-        assertThat(json, equalTo("\"" + ONE.getCurrencyFormattedString() + "\""));
-    }
-
-    @Test
-    public void shouldDeserialiseMonetaryValueFromJson()
-    {
-        final String json = "\"£1.00\"";
-
-        try
-        {
-            MonetaryValue.UK_CURRENCY_INSTANCE.parse("£1.25");
-            MonetaryValue value = new ObjectMapper().readValue(json, MonetaryValue.class);
-            assertThat(value.compareTo(ONE), equalTo(0));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            fail("JSON string should convert correctly");
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
-
+//    @Test
+//    public void shouldSerialiseMonetaryValueToJson() throws Exception
+//    {
+//        //        final String json = new JsonUtils().serializeToJson(ONE);
+//        final String json = new ObjectMapper().writeValueAsString(ONE);
+//
+//        assertThat(json, equalTo("\"" + ONE.getCurrencyFormattedString() + "\""));
+//    }
+//
+//    @Test
+//    public void shouldDeserialiseMonetaryValueFromJson()
+//    {
+//        final String json = "\"£1.00\"";
+//
+//        try
+//        {
+//            MonetaryValue.UK_CURRENCY_INSTANCE.parse("£1.25");
+//            MonetaryValue value = new ObjectMapper().readValue(json, MonetaryValue.class);
+//            assertThat(value.compareTo(ONE), equalTo(0));
+//        }
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//            fail("JSON string should convert correctly");
+//        }
+//        catch (ParseException e)
+//        {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
+//    }
+//
     @Test
     public void shouldBeLessThan()
     {
