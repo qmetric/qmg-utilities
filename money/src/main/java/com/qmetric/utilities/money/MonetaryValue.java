@@ -167,6 +167,11 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
         return StringUtils.substringBefore(getCurrencyFormattedString(), ".");
     }
 
+    public int getAsPence()
+    {
+        return PenceToPoundsAndPenceConversion.convertToPence(this);
+    }
+
     @Override
     public String toString()
     {
