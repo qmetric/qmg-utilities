@@ -10,6 +10,8 @@ import java.util.Locale;
 
 public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
 {
+    private static final long serialVersionUID = 1L;
+    
     public static final NumberFormat UK_CURRENCY_INSTANCE = NumberFormat.getCurrencyInstance(Locale.UK);
 
     public static final MonetaryValue ZERO = new MonetaryValue("0.00");
