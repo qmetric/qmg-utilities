@@ -19,7 +19,7 @@ public class PenceToPoundsAndPenceConversion
         int pounds = pennies / 100;
         int pence = pennies % 100;
 
-        return new MonetaryValue(String.format("%s.%s", String.valueOf(pounds), String.valueOf(pence)));
+        return new MonetaryValue(String.format("%d.%02d", pounds, pence));
     }
 
     /**
