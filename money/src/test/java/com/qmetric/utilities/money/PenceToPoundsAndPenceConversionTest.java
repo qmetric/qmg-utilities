@@ -25,4 +25,18 @@ public class PenceToPoundsAndPenceConversionTest
     {
         Assert.assertThat(PenceToPoundsAndPenceConversion.convertToPence(new MonetaryValue("1")), IsEqual.equalTo(100));
     }
+
+    @Test
+    public void shouldConvertSingleDigitPence()
+    {
+        final int pennies = Integer.parseInt("1006");
+        Assert.assertThat(PenceToPoundsAndPenceConversion.convertToMonetaryValue(pennies), IsEqual.equalTo(new MonetaryValue("10.06")));
+    }
+
+    @Test
+    public void shouldConvertTrailingZeroPence()
+    {
+        final int pennies = Integer.parseInt("1060");
+        Assert.assertThat(PenceToPoundsAndPenceConversion.convertToMonetaryValue(pennies), IsEqual.equalTo(new MonetaryValue("10.60")));
+    }
 }
