@@ -2,15 +2,12 @@ package com.qmetric.utilities.money;
 
 import org.junit.Test;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.ParseException;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 public class MonetaryValueTest
 {
@@ -235,37 +232,17 @@ public class MonetaryValueTest
         assertThat(base.greaterThanOrEqualTo(new MonetaryValue("10.00")), equalTo(false));
     }
 
-//    @Test
-//    public void shouldSerialiseMonetaryValueToJson() throws Exception
-//    {
-//        //        final String json = new JsonUtils().serializeToJson(ONE);
-//        final String json = new ObjectMapper().writeValueAsString(ONE);
-//
-//        assertThat(json, equalTo("\"" + ONE.getCurrencyFormattedString() + "\""));
-//    }
-//
-//    @Test
-//    public void shouldDeserialiseMonetaryValueFromJson()
-//    {
-//        final String json = "\"£1.00\"";
-//
-//        try
-//        {
-//            MonetaryValue.UK_CURRENCY_INSTANCE.parse("£1.25");
-//            MonetaryValue value = new ObjectMapper().readValue(json, MonetaryValue.class);
-//            assertThat(value.compareTo(ONE), equalTo(0));
-//        }
-//        catch (IOException e)
-//        {
-//            e.printStackTrace();
-//            fail("JSON string should convert correctly");
-//        }
-//        catch (ParseException e)
-//        {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
-//    }
-//
+    @Test
+    public void shouldReturnDoubleValue()
+    {
+        assertThat(MonetaryValue.ZERO.doubleValue(), equalTo(0d));
+        assertThat(new MonetaryValue("100.00").doubleValue(), equalTo(100d));
+        assertThat(new MonetaryValue("99.99").doubleValue(), equalTo(99.99));
+        assertThat(new MonetaryValue("33.329").doubleValue(), equalTo(33.33));
+        assertThat(new MonetaryValue("1").doubleValue(), equalTo(1d));
+    }
+
+    //
     @Test
     public void shouldBeLessThan()
     {

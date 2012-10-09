@@ -184,4 +184,9 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
     {
         return this.value.compareTo(other.value);
     }
+
+    public double doubleValue()
+    {
+        return scale(value).doubleValue();
+    }
 }
