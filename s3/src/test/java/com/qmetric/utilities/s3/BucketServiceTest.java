@@ -53,6 +53,12 @@ public class BucketServiceTest
         bucketService = null;
     }
 
+    @Test
+    public void zeroArgsConstructorExists()
+    {
+        new BucketService();
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void ShouldNotCreateServiceWithInvalidBucket() throws S3ServiceException
     {

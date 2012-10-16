@@ -28,6 +28,13 @@ public class BucketService
 
     private final S3Bucket bucket;
 
+    @SuppressWarnings("unused")
+    BucketService()
+    {
+        this.s3Service = null;
+        this.bucket = null;
+    }
+
     public BucketService(final S3Service s3Service, final String bucketName) throws S3ServiceException
     {
         this.s3Service = s3Service;
