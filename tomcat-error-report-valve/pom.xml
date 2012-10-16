@@ -10,7 +10,7 @@
     <parent>
         <artifactId>qmg-utilities</artifactId>
         <groupId>com.qmetric.utilities</groupId>
-        <version>3.17</version>
+        <version>3.18-SNAPSHOT</version>
     </parent>
 
     <dependencies>
