@@ -83,7 +83,7 @@ public class BucketServiceTest
 
         when(s3Service.getObject(bucketName, key)).thenReturn(s3Object);
 
-        Optional<String> retrieved = bucketService.retrieve(key);
+        Optional<String> retrieved = bucketService.retrieveString(key);
         assertTrue(retrieved.isPresent());
         assertEquals(data, retrieved.get());
     }
@@ -97,7 +97,7 @@ public class BucketServiceTest
 
         when(s3Service.getObject(bucketName, key)).thenReturn(s3Object);
 
-        assertFalse(bucketService.retrieve(key).isPresent());
+        assertFalse(bucketService.retrieveString(key).isPresent());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class BucketServiceTest
 
         when(s3Service.getObject(bucketName, key)).thenReturn(s3Object);
 
-        assertFalse(bucketService.retrieve(key).isPresent());
+        assertFalse(bucketService.retrieveString(key).isPresent());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class BucketServiceTest
 
         when(s3Service.getObject(bucketName, key)).thenReturn(s3Object);
 
-        assertFalse(bucketService.retrieve(key).isPresent());
+        assertFalse(bucketService.retrieveString(key).isPresent());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class BucketServiceTest
         when(s3ServiceException.getS3ErrorCode()).thenReturn(BucketService.NO_SUCH_KEY);
         when(s3Service.getObject(bucketName, key)).thenThrow(s3ServiceException);
 
-        assertFalse(bucketService.retrieve(key).isPresent());
+        assertFalse(bucketService.retrieveString(key).isPresent());
     }
 
     @Test
@@ -139,7 +139,7 @@ public class BucketServiceTest
     {
         when(s3Service.getObject(bucketName, key)).thenThrow(new S3ServiceException());
 
-        assertFalse(bucketService.retrieve(key).isPresent());
+        assertFalse(bucketService.retrieveString(key).isPresent());
     }
 
     @Test
@@ -149,7 +149,7 @@ public class BucketServiceTest
         when(s3Object.getDataInputStream()).thenThrow(new ServiceException());
         when(s3Service.getObject(bucketName, key)).thenReturn(s3Object);
 
-        assertFalse(bucketService.retrieve(key).isPresent());
+        assertFalse(bucketService.retrieveString(key).isPresent());
     }
 
     @Test
@@ -162,6 +162,6 @@ public class BucketServiceTest
 
         when(s3Service.getObject(bucketName, key)).thenReturn(s3Object);
 
-        assertFalse(bucketService.retrieve(key).isPresent());
+        assertFalse(bucketService.retrieveString(key).isPresent());
     }
 }

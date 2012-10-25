@@ -6,4 +6,9 @@ public class RuntimeIOException extends RuntimeException
     {
         super(e);
     }
+
+    public RuntimeIOException(final String message)
+    {
+        super(message);
+    }
 }

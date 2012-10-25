@@ -1,6 +1,9 @@
 package com.qmetric.utilities.file.zip;
 
+import com.google.common.base.Optional;
 import com.qmetric.utilities.file.FileUtils;
+import com.qmetric.utilities.file.RuntimeIOException;
+import com.qmetric.utilities.s3.BucketService;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.io.IOUtils;
@@ -10,11 +13,13 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.provider.zip.ZipFileObject;
+import org.apache.commons.vfs.provider.zip.ZipFileSystem;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.zip.ZipInputStream;
 
 /**
  * Creates or extracts zip files.
@@ -23,11 +28,11 @@ import java.util.Collection;
  */
 public class ZipArchive
 {
-    private final FileUtils fileUtils;
+    private BucketService bucketService;
 
-    public ZipArchive(final FileUtils fileUtils)
+    public ZipArchive(final BucketService bucketService)
     {
-        this.fileUtils = fileUtils;
+        this.bucketService = bucketService;
     }
 
     public void zip(final FileObject outputFile, final Collection<ZipFileEntry> entries)
@@ -56,34 +61,52 @@ public class ZipArchive
         }
     }
 
-    public void extract(final FileObject zipFilePath, final FileObject outputFolder)
+    public void extract(final String bucketKey, final FileObject outputFolder)
     {
-        Validate.notNull(zipFilePath, "Zip file cannot be null");
+        Validate.notNull(bucketKey, "Bucket key cannot be null");
         Validate.notNull(outputFolder, "Output folder cannot be null");
 
         isTypeFolder(outputFolder);
 
-        final ZipFileObject zip = resolveZipFile(zipFilePath);
+        final Optional<InputStream> inputStream = bucketService.retrieveAsInputStream(bucketKey);
 
-        try
-        {
-            final FileObject[] files = zip.findFiles(Selectors.SELECT_FILES);
+        if (!inputStream.isPresent()) {
+            throw new RuntimeIOException("No file found: " + bucketKey);
+        }
 
-            for (final FileObject file : files)
-            {
-                final FileObject destination = outputFolder.resolveFile(dropRootFromPathIfPresent(file));
-                destination.copyFrom(file, Selectors.SELECT_SELF);
-            }
-        }
-        catch (FileSystemException e)
-        {
-            throw new RuntimeException(e);
-        }
-        finally
-        {
-            close(zip);
-        }
+        final ZipInputStream zipInputStream = new ZipInputStream(inputStream.get());
+
+
     }
+
+    //    public void extract(final FileObject zipFilePath, final FileObject outputFolder)
+    //    {
+    //        Validate.notNull(zipFilePath, "Zip file cannot be null");
+    //        Validate.notNull(outputFolder, "Output folder cannot be null");
+    //
+    //        isTypeFolder(outputFolder);
+    //
+    //        final ZipFileObject zip = resolveZipFile(zipFilePath);
+    //
+    //        try
+    //        {
+    //            final FileObject[] files = zip.findFiles(Selectors.SELECT_FILES);
+    //
+    //            for (final FileObject file : files)
+    //            {
+    //                final FileObject destination = outputFolder.resolveFile(dropRootFromPathIfPresent(file));
+    //                destination.copyFrom(file, Selectors.SELECT_SELF);
+    //            }
+    //        }
+    //        catch (FileSystemException e)
+    //        {
+    //            throw new RuntimeException(e);
+    //        }
+    //        finally
+    //        {
+    //            close(zip);
+    //        }
+    //    }
 
     private void addZipEntry(final ZipArchiveOutputStream zip, final String zipEntryPath, final InputStream inputStream) throws IOException
     {

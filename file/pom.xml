@@ -23,6 +23,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.qmetric.utilities</groupId>
+            <artifactId>s3</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
