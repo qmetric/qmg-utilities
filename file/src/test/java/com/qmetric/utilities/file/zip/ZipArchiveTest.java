@@ -1,7 +1,9 @@
 package com.qmetric.utilities.file.zip;
 
+import com.google.common.base.Optional;
 import com.qmetric.utilities.file.FileUtils;
 import com.qmetric.utilities.io.IOUtils;
+import com.qmetric.utilities.s3.BucketService;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
@@ -11,10 +13,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.ZipInputStream;
+
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ZipArchiveTest
 {
@@ -26,6 +33,13 @@ public class ZipArchiveTest
 
     private IOUtils ioUtils = new IOUtils();
 
+    private ZipArchive zipArchive;
+
+    public static final String[] EXPECTED_ENTRIES =
+            new String[] {"common/insurer/qgl1/blackandwhite/img_logo.png", "common/insurer/qgl1/large/img_logo.png", "common/insurer/qgl1/medium/img_logo.png",
+                          "common/insurer/qgl1/small/img_logo.png", "common/insurer/qgl1/x-small/img_logo.png", "schedule/assets/bottom-of-page.png", "schedule/Schedule.xsl",
+                          "schedule/SchedulePreProcessing.xsl", "schedule/SchedulePropertySets.xsl", "schedule/SVGIcons.xsl"};
+
     @Before
     public void context() throws Exception
     {
@@ -36,6 +50,8 @@ public class ZipArchiveTest
         BASE_FOLDER = fileUtils.createFolder("/tmp/ZipArchiveITest");
 
         outputFile = BASE_FOLDER.resolveFile("actualFile.zip");
+
+        zipArchive = new ZipArchive(ioUtils);
     }
 
     @Test
@@ -47,7 +63,7 @@ public class ZipArchiveTest
 
         assertTrue(welcomeXsl.exists());
 
-        new ZipArchive().zip(outputFile, new ZipFileEntry(welcomeXsl, expectedFilePath));
+        zipArchive.zip(outputFile, new ZipFileEntry(welcomeXsl, expectedFilePath));
 
         final FileObject actual = fileUtils.resolveFile("zip:" + outputFile.getName().getPath()).resolveFile(expectedFilePath);
 
@@ -57,25 +73,34 @@ public class ZipArchiveTest
     }
 
     @Test
-    public void shouldExtractZipToOutputFolder() throws Exception
+    public void shouldExtractZipToOutputFolderWithCorrectStructure() throws IOException
     {
-        final FileObject zipFile = fileUtils.resolveFile("res:zip/expected.zip");
-
-        final FileObject zip = fileUtils.resolveFile("zip:" + zipFile.getName().getPath());
-
         final FileObject outputFolder = BASE_FOLDER;
 
-        new ZipArchive().extract(zipFile, outputFolder);
+        final FileObject zipFile = fileUtils.resolveFile("res:zip/testExtraction.zip");
 
-        final FileObject[] files = outputFolder.findFiles(Selectors.SELECT_FILES);
+        zipArchive.extract(new ZipInputStream(zipFile.getContent().getInputStream()), outputFolder);
 
-        for (FileObject actual : files)
+        for (final String entry : EXPECTED_ENTRIES)
         {
-            assertFileExists(actual);
+            assertFileExists(outputFolder.resolveFile(entry));
+        }
+    }
 
-            final String actualPath = actual.getName().getPathDecoded().replaceFirst(outputFolder.getName().getPath(), "");
+    @Test
+    public void shouldExtractZipToOutputFolderWithCorrectContents() throws FileSystemException
+    {
+        final FileObject outputFolder = BASE_FOLDER;
 
-            assertThat(fileUtils.bytesFrom(actual), equalTo(fileUtils.bytesFrom(zip.resolveFile(actualPath))));
+        final FileObject zipFile = fileUtils.resolveFile("res:zip/testExtraction.zip");
+
+        zipArchive.extract(new ZipInputStream(zipFile.getContent().getInputStream()), outputFolder);
+
+        for (final String entry : EXPECTED_ENTRIES)
+        {
+            final FileObject extractedFile = outputFolder.resolveFile(entry);
+
+            assertThat(fileUtils.bytesFrom(extractedFile), equalTo(fileUtils.bytesFrom("res:extract/expected/" + entry)));
         }
     }
 

@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -60,7 +62,7 @@ public class BucketServiceTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void ShouldNotCreateServiceWithInvalidBucket() throws S3ServiceException
+    public void shouldNotCreateServiceWithInvalidBucket() throws S3ServiceException
     {
         when(s3Service.getBucket(bucketName)).thenReturn(null);
         bucketService = new BucketService(s3Service, bucketName);
@@ -75,7 +77,7 @@ public class BucketServiceTest
     }
 
     @Test
-    public void shouldRetrieveVerifiedContent() throws ServiceException, IOException, NoSuchAlgorithmException
+    public void retrieveStringShouldRetrieveVerifiedContent() throws ServiceException, IOException, NoSuchAlgorithmException
     {
         final S3Object s3Object = mock(S3Object.class);
         when(s3Object.getDataInputStream()).thenReturn(new ByteArrayInputStream(data.getBytes()));
@@ -89,7 +91,7 @@ public class BucketServiceTest
     }
 
     @Test
-    public void shouldReturnAbsentIfContentUnverified() throws ServiceException, IOException, NoSuchAlgorithmException
+    public void retrieveStringShouldReturnAbsentIfContentUnverified() throws ServiceException, IOException, NoSuchAlgorithmException
     {
         final S3Object s3Object = mock(S3Object.class);
         when(s3Object.getDataInputStream()).thenReturn(new ByteArrayInputStream(data.getBytes()));
@@ -101,7 +103,7 @@ public class BucketServiceTest
     }
 
     @Test
-    public void shouldReturnAbsentIfVerifyThrowsNoSuchAlgorithm() throws ServiceException, IOException, NoSuchAlgorithmException
+    public void retrieveStringShouldReturnAbsentIfVerifyThrowsNoSuchAlgorithm() throws ServiceException, IOException, NoSuchAlgorithmException
     {
         final S3Object s3Object = mock(S3Object.class);
         when(s3Object.getDataInputStream()).thenReturn(new ByteArrayInputStream(data.getBytes()));
@@ -113,7 +115,7 @@ public class BucketServiceTest
     }
 
     @Test
-    public void shouldReturnAbsentIfVerifyThrowsIOException() throws ServiceException, IOException, NoSuchAlgorithmException
+    public void retrieveStringShouldReturnAbsentIfVerifyThrowsIOException() throws ServiceException, IOException, NoSuchAlgorithmException
     {
         final S3Object s3Object = mock(S3Object.class);
         when(s3Object.getDataInputStream()).thenReturn(new ByteArrayInputStream(data.getBytes()));
@@ -125,7 +127,7 @@ public class BucketServiceTest
     }
 
     @Test
-    public void shouldReturnAbsentIfNoKey() throws S3ServiceException
+    public void retrieveStringShouldReturnAbsentIfNoKey() throws S3ServiceException
     {
         final S3ServiceException s3ServiceException = mock(S3ServiceException.class);
         when(s3ServiceException.getS3ErrorCode()).thenReturn(BucketService.NO_SUCH_KEY);
@@ -135,7 +137,7 @@ public class BucketServiceTest
     }
 
     @Test
-    public void shouldReturnAbsentIfS3ServiceExceptionThrown() throws S3ServiceException
+    public void retrieveStringShouldReturnAbsentIfS3ServiceExceptionThrown() throws S3ServiceException
     {
         when(s3Service.getObject(bucketName, key)).thenThrow(new S3ServiceException());
 
@@ -143,7 +145,7 @@ public class BucketServiceTest
     }
 
     @Test
-    public void shouldReturnAbsentIfServiceExceptionThrown() throws ServiceException
+    public void retrieveStringShouldReturnAbsentIfServiceExceptionThrown() throws ServiceException
     {
         final S3Object s3Object = mock(S3Object.class);
         when(s3Object.getDataInputStream()).thenThrow(new ServiceException());
@@ -153,9 +155,11 @@ public class BucketServiceTest
     }
 
     @Test
-    public void shouldReturnAbsentIfIOExceptionThrown() throws ServiceException
+    public void retrieveStringShouldReturnAbsentIfIOExceptionThrown() throws ServiceException, IOException
     {
         final InputStream inputStream = mock(InputStream.class);
+
+        when(inputStream.read()).thenThrow(new IOException());
 
         final S3Object s3Object = mock(S3Object.class);
         when(s3Object.getDataInputStream()).thenReturn(inputStream);
@@ -163,5 +167,11 @@ public class BucketServiceTest
         when(s3Service.getObject(bucketName, key)).thenReturn(s3Object);
 
         assertFalse(bucketService.retrieveString(key).isPresent());
+    }
+
+    @Test
+    public void shouldHaveBucketName()
+    {
+        assertThat(bucketService.getBucketName(), equalTo(bucketName));
     }
 }

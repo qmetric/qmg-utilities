@@ -86,30 +86,18 @@ public class BucketService
 
     public Optional<String> retrieveString(String key)
     {
-        final Optional<S3Object> s3ObjectSearch = retrieveS3Object(key);
+        final Optional<InputStream> inputStreamSearch = retrieveAsInputStream(key);
 
-        if (!s3ObjectSearch.isPresent())
+        if(inputStreamSearch.isPresent())
         {
-            return Optional.absent();
-        }
-
-        try
-        {
-            final S3Object s3Object = s3ObjectSearch.get();
-            String content = getStringFromStream(s3Object.getDataInputStream());
-
-            if (verifyData(s3Object, content.getBytes(Charsets.UTF_8)))
+            try
             {
-                return Optional.of(content);
+                return Optional.of(getStringFromStream(inputStreamSearch.get()));
             }
-        }
-        catch (IOException e)
-        {
-            logError(e);
-        }
-        catch (ServiceException e)
-        {
-            logError(e);
+            catch (IOException e)
+            {
+                logError(e);
+            }
         }
 
         return Optional.absent();
@@ -129,6 +117,11 @@ public class BucketService
             }
             return Optional.absent();
         }
+    }
+
+    public String getBucketName()
+    {
+        return bucket.getName();
     }
 
     private boolean verifyData(S3Object s3Object, byte[] content)
