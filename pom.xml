@@ -14,6 +14,7 @@
         <module>file</module>
         <module>io</module>
         <module>jdbc</module>
+        <module>jdbi</module>
         <module>json</module>
         <module>lang</module>
         <module>math</module>
@@ -50,6 +51,7 @@
         <itextpdf.version>5.1.0</itextpdf.version>
         <jackson.version>1.9.10</jackson.version>
         <javax.mail.version>1.4.3</javax.mail.version>
+        <jdbi.version>2.38.1</jdbi.version>
         <jets3t.version>0.9.0</jets3t.version>
         <jetty.version>6.1.25</jetty.version>
         <joda-time.version>1.6</joda-time.version>
