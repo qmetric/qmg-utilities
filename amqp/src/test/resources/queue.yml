@@ -1,0 +1,5 @@
+name: test
+durable: true
+exclusive: true
+autoDelete: true
+deadLetterExchange: dead-letter
