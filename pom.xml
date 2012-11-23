@@ -27,6 +27,7 @@
         <module>util</module>
         <module>web</module>
         <module>security</module>
+        <module>amqp</module>
     </modules>
 
     <properties> <!-- I can't believe I have to say this....but keep this tidy, thank you :) -->
