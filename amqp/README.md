@@ -17,10 +17,37 @@ queue:
   name: carrots
 ```
 
-To create a listener that will be start and stopped with your dropwizard service, write some code like this in your Service.
+If you have a service configuration class like this:
 
 ```java
-@Override protected void initialize(final StorageConfiguration configuration, final Environment environment) throws Exception {
+public class MyConfiguration extends Configuration
+{
+    @Valid
+    @NotNull
+    @JsonProperty
+    private BrokerConfiguration broker = new BrokerConfiguration();
+
+    public BrokerConfiguration getBroker()
+    {
+        return broker;
+    }
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private QueueConfiguration queue = new QueueConfiguration();
+
+    public QueueConfiguration getQueue()
+    {
+        return queue;
+    }
+}
+```
+
+Then to create a listener that will be start and stopped with your dropwizard service, write some code like this in your Service.
+
+```java
+@Override protected void initialize(final MyConfiguration configuration, final Environment environment) throws Exception {
 
     // This is the listener. It can be a MessageListener or a ChannelAwareMessageListener.
     final MyListener myListener = new MyListener();
