@@ -27,6 +27,9 @@ public class BrokerConfiguration
     @NotEmpty @JsonProperty
     private String virtualHost;
 
+    @JsonProperty
+    private int heartbeat;
+
     @ValidationMethod(message = "Either a host field or an addresses field must be present")
     public boolean isHostOrAddressPresent()
     {
@@ -66,5 +69,10 @@ public class BrokerConfiguration
     public String getVirtualHost()
     {
         return virtualHost;
+    }
+
+    public int getHeartbeat()
+    {
+        return heartbeat;
     }
 }

@@ -42,6 +42,7 @@ public class BrokerConfigurationTest
         assertThat(configuration.getUsername(), equalTo("test-user"));
         assertThat(configuration.getPassword(), equalTo("test-password"));
         assertThat(configuration.getVirtualHost(), equalTo("test"));
+        assertThat(configuration.getHeartbeat(), equalTo(10));
     }
 
     @Test
@@ -56,5 +57,6 @@ public class BrokerConfigurationTest
         assertThat(configuration.getUsername(), equalTo("test-user"));
         assertThat(configuration.getPassword(), equalTo("test-password"));
         assertThat(configuration.getVirtualHost(), equalTo("test"));
+        assertThat(configuration.getHeartbeat(), equalTo(0));
     }
 }
