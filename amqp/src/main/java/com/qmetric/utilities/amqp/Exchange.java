@@ -11,7 +11,7 @@ public class Exchange
     public Exchange(final ConnectionFactory connectionFactory, final ExchangeConfiguration exchangeConfiguration)
     {
         rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setExchange(exchangeConfiguration.getExchange());
+        rabbitTemplate.setExchange(exchangeConfiguration.getName());
         rabbitTemplate.setRoutingKey(exchangeConfiguration.getRoutingKey());
     }
 

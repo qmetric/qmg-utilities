@@ -4,7 +4,6 @@ import com.google.common.io.Resources;
 import com.yammer.dropwizard.config.ConfigurationException;
 import com.yammer.dropwizard.config.ConfigurationFactory;
 import com.yammer.dropwizard.validation.Validator;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +34,7 @@ public class ExchangeConfigurationTest
         ExchangeConfiguration configuration = configurationFactory.build(file);
 
         assertNotNull(configuration);
-        assertThat(configuration.getExchange(), equalTo("test"));
+        assertThat(configuration.getName(), equalTo("test"));
         assertThat(configuration.getRoutingKey(), equalTo("route-66"));
     }
 }

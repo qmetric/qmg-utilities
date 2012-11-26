@@ -1,2 +1,2 @@
-exchange: test
+name: test
 routingKey: route-66

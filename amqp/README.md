@@ -15,6 +15,10 @@ broker:
 
 queue:
   name: carrots
+
+exchange:
+  name: parsley
+  routingKey: tasty
 ```
 
 If you have a service configuration class like this:
@@ -41,6 +45,11 @@ public class MyConfiguration extends Configuration
     {
         return queue;
     }
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private ExchangeConfiguration exchange = new ExchangeConfiguration();
 }
 ```
 
@@ -68,5 +77,9 @@ Then to create a listener that will be start and stopped with your dropwizard se
 
     // This registers another listener with the same broker.
     new AmqpListener(environment, connectionFactory, anotherListener, AcknowledgeMode.MANUAL, false, configuration.getQueue());
+
+    // This creates an exchange where messages can be sent.
+    Exchange exchange = new Exchange(configuration.getExchange());
+    exchange.send(new Message("1".getBytes(), null));
 }
 ```

@@ -7,14 +7,14 @@ public class ExchangeConfiguration
 {
     @NotEmpty
     @JsonProperty
-    private String exchange;
+    private String name;
 
     @JsonProperty
     private String routingKey;
 
-    public String getExchange()
+    public String getName()
     {
-        return exchange;
+        return name;
     }
 
     public String getRoutingKey()

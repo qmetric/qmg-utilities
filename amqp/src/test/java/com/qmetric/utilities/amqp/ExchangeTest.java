@@ -15,7 +15,7 @@ public class ExchangeTest
     public void shouldReadValuesFromConfigurationOnConstruction()
     {
         new Exchange(connectionFactory, exchangeConfiguration);
-        verify(exchangeConfiguration).getExchange();
+        verify(exchangeConfiguration).getName();
         verify(exchangeConfiguration).getRoutingKey();
     }
 }
