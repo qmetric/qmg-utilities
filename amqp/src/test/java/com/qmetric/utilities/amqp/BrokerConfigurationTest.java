@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class BrokerConfigurationTest
@@ -20,21 +21,37 @@ public class BrokerConfigurationTest
     private final Validator validator = new Validator();
     private final ConfigurationFactory<BrokerConfiguration> configurationFactory = ConfigurationFactory.forClass(BrokerConfiguration.class, validator);
 
-    private File file;
+    private File fileWithHost, fileWithAddresses;
 
     @Before
     public void setUp() throws URISyntaxException
     {
-        file = new File(Resources.getResource("broker.yml").toURI());
+        fileWithHost = new File(Resources.getResource("broker.yml").toURI());
+        fileWithAddresses = new File(Resources.getResource("broker-addresses.yml").toURI());
     }
 
     @Test
-    public void shouldLoadConfigurationFromYaml() throws IOException, ConfigurationException
+    public void shouldLoadConfigurationWithHostFromYaml() throws IOException, ConfigurationException
     {
-        BrokerConfiguration configuration = configurationFactory.build(file);
+        BrokerConfiguration configuration = configurationFactory.build(fileWithHost);
 
         assertNotNull(configuration);
         assertThat(configuration.getHost(), equalTo("test-host"));
+        assertNull(configuration.getAddresses());
+        assertThat(configuration.getPort(), equalTo(2));
+        assertThat(configuration.getUsername(), equalTo("test-user"));
+        assertThat(configuration.getPassword(), equalTo("test-password"));
+        assertThat(configuration.getVirtualHost(), equalTo("test"));
+    }
+
+    @Test
+    public void shouldLoadConfigurationWithAddressesFromYaml() throws IOException, ConfigurationException
+    {
+        BrokerConfiguration configuration = configurationFactory.build(fileWithAddresses);
+
+        assertNotNull(configuration);
+        assertNull(configuration.getHost());
+        assertThat(configuration.getAddresses(), equalTo("test-host, test-host2"));
         assertThat(configuration.getPort(), equalTo(2));
         assertThat(configuration.getUsername(), equalTo("test-user"));
         assertThat(configuration.getPassword(), equalTo("test-password"));

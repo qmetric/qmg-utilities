@@ -1,0 +1,5 @@
+addresses: test-host, test-host2
+port: 2
+username: test-user
+password: test-password
+virtualHost: test

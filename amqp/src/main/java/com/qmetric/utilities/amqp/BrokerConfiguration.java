@@ -1,5 +1,6 @@
 package com.qmetric.utilities.amqp;
 
+import com.yammer.dropwizard.validation.ValidationMethod;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -8,32 +9,47 @@ import javax.validation.constraints.Min;
 
 public class BrokerConfiguration
 {
-    @NotEmpty
     @JsonProperty
     private String host;
 
-    @Min(1)
-    @Max(65535)
     @JsonProperty
+    private String addresses;
+
+    @Min(1) @Max(65535) @JsonProperty
     private int port = 5672;
 
-    @NotEmpty
-    @JsonProperty
+    @NotEmpty @JsonProperty
     private String username;
 
-    @NotEmpty
-    @JsonProperty
+    @NotEmpty @JsonProperty
     private String password;
 
-    @NotEmpty
-    @JsonProperty
+    @NotEmpty @JsonProperty
     private String virtualHost;
 
-    public String getHost() {
+    @ValidationMethod(message = "Either a host field or an addresses field must be present")
+    public boolean isHostOrAddressPresent()
+    {
+        return notEmpty(host) || notEmpty(addresses);
+    }
+
+    private boolean notEmpty(String s)
+    {
+        return s != null && s.trim().length() > 0;
+    }
+
+    public String getHost()
+    {
         return host;
     }
 
-    public int getPort() {
+    public String getAddresses()
+    {
+        return addresses;
+    }
+
+    public int getPort()
+    {
         return port;
     }
 
