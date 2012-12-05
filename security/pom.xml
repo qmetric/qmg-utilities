@@ -2,7 +2,7 @@
     <parent>
         <artifactId>qmg-utilities</artifactId>
         <groupId>com.qmetric.utilities</groupId>
-        <version>3.22-SNAPSHOT</version>
+        <version>3.22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
