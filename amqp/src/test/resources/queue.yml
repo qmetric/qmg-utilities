@@ -3,3 +3,6 @@ durable: true
 exclusive: true
 autoDelete: true
 deadLetterExchange: dead-letter
+bindings:
+  exchange1: ''
+  exchange2: 'test'

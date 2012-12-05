@@ -12,6 +12,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class AmqpListener extends HealthCheck implements Managed
 {
@@ -63,7 +64,22 @@ public class AmqpListener extends HealthCheck implements Managed
         Channel channel = connection.createChannel(false);
         try
         {
-            channel.queueDeclare(queue.getName(), queue.isDurable(), queue.isExclusive(), queue.isAutoDelete(), queue.arguments());
+            if (!queue.isPassive())
+            {
+                channel.queueDeclare(queue.getName(), queue.isDurable(), queue.isExclusive(), queue.isAutoDelete(), queue.arguments());
+            }
+            else
+            {
+                channel.queueDeclarePassive(queue.getName());
+            }
+
+            if (queue.getBindings() != null && !queue.getBindings().isEmpty())
+            {
+                for (Map.Entry<String, String> entry : queue.getBindings().entrySet())
+                {
+                    channel.queueBind(queue.getName(), entry.getKey(), entry.getValue());
+                }
+            }
         }
         catch (IOException e)
         {

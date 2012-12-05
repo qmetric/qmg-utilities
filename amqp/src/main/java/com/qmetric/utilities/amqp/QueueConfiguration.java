@@ -23,6 +23,12 @@ public class QueueConfiguration
     @JsonProperty
     private String deadLetterExchange = null;
 
+    @JsonProperty
+    private boolean passive = false;
+
+    @JsonProperty
+    private Map<String, String> bindings = new HashMap<String, String>();
+
     public String getName()
     {
         return name;
@@ -41,6 +47,16 @@ public class QueueConfiguration
     public boolean isAutoDelete()
     {
         return autoDelete;
+    }
+
+    public boolean isPassive()
+    {
+        return passive;
+    }
+
+    public Map<String, String> getBindings()
+    {
+        return bindings;
     }
 
     public Map<String, Object> arguments()

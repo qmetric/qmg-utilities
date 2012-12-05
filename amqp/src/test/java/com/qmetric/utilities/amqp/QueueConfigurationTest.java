@@ -40,6 +40,9 @@ public class QueueConfigurationTest
         assertThat(configuration.isDurable(), equalTo(true));
         assertThat(configuration.isExclusive(), equalTo(true));
         assertThat(configuration.arguments(), Matchers.<String, Object>hasEntry("x-dead-letter-exchange", "dead-letter"));
+
+        assertThat(configuration.getBindings(), Matchers.hasEntry("exchange1", ""));
+        assertThat(configuration.getBindings(), Matchers.hasEntry("exchange2", "test"));
     }
 }
 
