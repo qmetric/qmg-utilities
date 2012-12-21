@@ -6,7 +6,7 @@ package com.qmetric.utilities.assembler;
  * Assembler pattern specification which abstracts clients from any Dozer mapping implementation. Also, having an assembler implementations for each
  * module in our hierarchy reduces naming conflicts between spring beans in different modules.
  * <p/>
- * http://java.sun.com/blueprints/corej2eepatterns/Patterns/TransferObjectAssembler.html
+ * http://www.oracle.com/technetwork/java/transferobject-139757.html
  * <p/>
  * See Dozer documentation for exact mapping capabilities of the assembler. http://dozer.sourceforge.net/documentation/about.html
  */
