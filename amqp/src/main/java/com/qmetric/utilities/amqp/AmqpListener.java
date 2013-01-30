@@ -4,8 +4,9 @@ import com.google.common.base.Joiner;
 import com.rabbitmq.client.Channel;
 import com.yammer.dropwizard.config.Environment;
 import com.yammer.dropwizard.lifecycle.Managed;
-import com.yammer.dropwizard.logging.Log;
 import com.yammer.metrics.core.HealthCheck;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class AmqpListener extends HealthCheck implements Managed
 {
-    private final Log log = Log.forClass(AmqpListener.class);
+    private final Logger log = LoggerFactory.getLogger(AmqpListener.class);
 
     private final ConnectionFactory connectionFactory;
 
@@ -83,7 +84,7 @@ public class AmqpListener extends HealthCheck implements Managed
         }
         catch (IOException e)
         {
-            log.error(e, "Unable to declare queue {}", queue);
+            log.error(String.format("Unable to declare queue %s", queue), e);
         }
         finally
         {
@@ -93,7 +94,7 @@ public class AmqpListener extends HealthCheck implements Managed
             }
             catch (IOException e)
             {
-                log.error(e, "Unable to close channel");
+                log.error("Unable to close channel", e);
             }
 
             connection.close();

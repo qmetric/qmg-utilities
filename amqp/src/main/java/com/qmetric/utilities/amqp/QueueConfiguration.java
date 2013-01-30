@@ -1,6 +1,6 @@
 package com.qmetric.utilities.amqp;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.HashMap;

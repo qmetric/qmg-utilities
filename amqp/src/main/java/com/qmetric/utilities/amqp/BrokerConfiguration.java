@@ -1,7 +1,7 @@
 package com.qmetric.utilities.amqp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yammer.dropwizard.validation.ValidationMethod;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Max;
