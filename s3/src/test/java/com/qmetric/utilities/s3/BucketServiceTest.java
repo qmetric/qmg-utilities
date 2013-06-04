@@ -61,10 +61,21 @@ public class BucketServiceTest
         new BucketService();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldNotCreateServiceWithInvalidBucket() throws S3ServiceException
+    @Test
+    public void shouldCreateMissingBuckets() throws S3ServiceException
     {
         when(s3Service.getBucket(bucketName)).thenReturn(null);
+        S3Bucket s3Bucket = mock(S3Bucket.class);
+        when(s3Service.createBucket(bucketName)).thenReturn(s3Bucket);
+        bucketService = new BucketService(s3Service, bucketName);
+        verify(s3Service).createBucket(bucketName);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowRTEWhenMissingBucketCannotBeCreated() throws S3ServiceException
+    {
+        when(s3Service.getBucket(bucketName)).thenReturn(null);
+        when(s3Service.createBucket(bucketName)).thenThrow(new RuntimeException(""));
         bucketService = new BucketService(s3Service, bucketName);
     }
 

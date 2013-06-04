@@ -20,8 +20,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Encapsulates storage and retrieval of strings to a single S3 bucket.
  */
-public class BucketService
-{
+public class BucketService {
     private final Logger logger = Logger.getLogger(BucketService.class);
 
     static final String NO_SUCH_KEY = "NoSuchKey";
@@ -30,72 +29,82 @@ public class BucketService
 
     private final S3Bucket bucket;
 
-    @SuppressWarnings("unused") BucketService()
-    {
+    @SuppressWarnings("unused")
+    BucketService() {
         this.s3Service = null;
         this.bucket = null;
     }
 
-    public BucketService(final S3Service s3Service, final String bucketName) throws S3ServiceException
-    {
+    public BucketService(final S3Service s3Service, final String bucketName) throws S3ServiceException {
         this.s3Service = s3Service;
-        this.bucket = s3Service.getBucket(bucketName);
-        if (bucket == null)
-        {
-            throw new IllegalArgumentException(String.format("Bucket called %s cannot be found on Amazon S3", bucketName));
+
+        final S3Bucket bucket = s3Service.getBucket(bucketName);
+
+        if (bucket == null) {
+            logger.warn(String.format("Bucket called %s cannot be found on Amazon S3. Creating this bucket now...", bucketName));
+            try {
+                this.bucket = s3Service.createBucket(bucketName);
+                logger.warn(String.format("Bucket called %s now created.", bucketName));
+            } catch (S3ServiceException e) {
+                throw new RuntimeException(String.format("S3Service failed to create missing bucket %s", bucketName), e);
+            }
+        } else {
+            this.bucket = bucket;
         }
     }
 
-    public void store(String key, String data) throws IOException, NoSuchAlgorithmException, S3ServiceException
-    {
+    public void store(String key, String data, String contentType) throws IOException, NoSuchAlgorithmException, S3ServiceException {
+        if(key == null || key.length() == 0) throw new RuntimeException("key must have a value");
+        if(data == null || data.length() ==0) throw new RuntimeException("data must have a value");
+        if(contentType == null || contentType.length() ==0) throw new RuntimeException("contentType must have a value");
+
+        S3Object s3Object = new S3Object(key, data);
+        s3Object.setContentType(contentType);
+        s3Object.setContentLength(data.getBytes().length);
+
+        s3Service.putObject(bucket.getName(), s3Object);
+    }
+
+    /**
+     * @deprecated use BucketService.store(String key, String data, String contentType)
+     */
+    @Deprecated
+    public void store(String key, String data) throws IOException, NoSuchAlgorithmException, S3ServiceException {
         S3Object stringData = new S3Object(key, data);
         s3Service.putObject(bucket, stringData);
     }
 
-    public Optional<InputStream> retrieveAsInputStream(String key)
-    {
+    public Optional<InputStream> retrieveAsInputStream(String key) {
         final Optional<S3Object> s3ObjectSearch = retrieveS3Object(key);
 
-        if (!s3ObjectSearch.isPresent())
-        {
+        if (!s3ObjectSearch.isPresent()) {
             return Optional.absent();
         }
 
-        try
-        {
+        try {
             final S3Object s3Object = s3ObjectSearch.get();
             final InputStream dataInputStream = s3Object.getDataInputStream();
             final byte[] content = ServiceUtils.readInputStreamToBytes(dataInputStream);
 
-            if (verifyData(s3Object, content))
-            {
+            if (verifyData(s3Object, content)) {
                 return Optional.of((InputStream) new ByteArrayInputStream(content));
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             logError(e);
-        }
-        catch (ServiceException e)
-        {
+        } catch (ServiceException e) {
             logError(e);
         }
 
         return Optional.absent();
     }
 
-    public Optional<String> retrieveString(String key)
-    {
+    public Optional<String> retrieveString(String key) {
         final Optional<InputStream> inputStreamSearch = retrieveAsInputStream(key);
 
-        if(inputStreamSearch.isPresent())
-        {
-            try
-            {
+        if (inputStreamSearch.isPresent()) {
+            try {
                 return Optional.of(getStringFromStream(inputStreamSearch.get()));
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 logError(e);
             }
         }
@@ -103,52 +112,38 @@ public class BucketService
         return Optional.absent();
     }
 
-    private Optional<S3Object> retrieveS3Object(String key)
-    {
-        try
-        {
+    private Optional<S3Object> retrieveS3Object(String key) {
+        try {
             return Optional.of(s3Service.getObject(bucket.getName(), key));
-        }
-        catch (S3ServiceException e)
-        {
-            if (!NO_SUCH_KEY.equals(e.getS3ErrorCode()))
-            {
+        } catch (S3ServiceException e) {
+            if (!NO_SUCH_KEY.equals(e.getS3ErrorCode())) {
                 logError(e);
             }
             return Optional.absent();
         }
     }
 
-    public String getBucketName()
-    {
+    public String getBucketName() {
         return bucket.getName();
     }
 
-    private boolean verifyData(S3Object s3Object, byte[] content)
-    {
-        try
-        {
+    private boolean verifyData(S3Object s3Object, byte[] content) {
+        try {
             return s3Object.verifyData(content);
-        }
-        catch (NoSuchAlgorithmException e)
-        {
+        } catch (NoSuchAlgorithmException e) {
             logError(e);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             logError(e);
         }
 
         return false;
     }
 
-    private String getStringFromStream(InputStream stream) throws IOException
-    {
+    private String getStringFromStream(InputStream stream) throws IOException {
         return CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
     }
 
-    private void logError(Throwable t)
-    {
+    private void logError(Throwable t) {
         logger.error("Error storing/retrieving data with BucketService", t);
     }
 }
