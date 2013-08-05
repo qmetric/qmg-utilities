@@ -1,8 +1,12 @@
 package com.qmetric.utilities.s3;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.io.CharStreams;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
@@ -10,12 +14,16 @@ import org.jets3t.service.ServiceException;
 import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
 import org.jets3t.service.utils.ServiceUtils;
+import org.joda.time.DateTime;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.NoSuchAlgorithmException;
+
+import static com.google.common.collect.FluentIterable.from;
+import static java.util.Arrays.asList;
 
 /**
  * Encapsulates storage and retrieval of strings to a single S3 bucket.
@@ -112,6 +120,19 @@ public class BucketService {
         return Optional.absent();
     }
 
+    public BucketItems listItems(final String prefix, final String delimiter) {
+        try {
+            return new BucketItems(from(asList(s3Service.listObjects(bucket.getName(), prefix, delimiter))).transform(new Function<S3Object, BucketItem>() {
+                @Override public BucketItem apply(final S3Object input) {
+                    return new BucketItem(input.getKey(), new DateTime(input.getLastModifiedDate()));
+                }
+            }));
+        } catch (S3ServiceException e) {
+            logError(e);
+            throw new RuntimeException(e);
+        }
+    }
+
     private Optional<S3Object> retrieveS3Object(String key) {
         try {
             return Optional.of(s3Service.getObject(bucket.getName(), key));
@@ -145,5 +166,52 @@ public class BucketService {
 
     private void logError(Throwable t) {
         logger.error("Error storing/retrieving data with BucketService", t);
+    }
+
+    public static class BucketItems {
+        private final Iterable<BucketItem> items;
+
+        public BucketItems(final Iterable<BucketItem> items) {
+            this.items = items;
+        }
+
+        public Iterable<BucketItem> all() {
+            return items;
+        }
+
+        @Override public int hashCode() {
+            return HashCodeBuilder.reflectionHashCode(this);
+        }
+
+        @Override public boolean equals(final Object obj) {
+            return EqualsBuilder.reflectionEquals(this, obj);
+        }
+
+        @Override public String toString() {
+            return ToStringBuilder.reflectionToString(this);
+        }
+    }
+
+    public static class BucketItem {
+        public final String path;
+
+        public final DateTime lastModified;
+
+        public BucketItem(final String path, final DateTime lastModified) {
+            this.path = path;
+            this.lastModified = lastModified;
+        }
+
+        @Override public int hashCode() {
+            return HashCodeBuilder.reflectionHashCode(this);
+        }
+
+        @Override public boolean equals(final Object obj) {
+            return EqualsBuilder.reflectionEquals(this, obj);
+        }
+
+        @Override public String toString() {
+            return ToStringBuilder.reflectionToString(this);
+        }
     }
 }
