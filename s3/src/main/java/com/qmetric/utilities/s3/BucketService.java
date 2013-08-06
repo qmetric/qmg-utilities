@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import static com.google.common.collect.FluentIterable.from;
 import static java.util.Arrays.asList;
@@ -126,7 +127,7 @@ public class BucketService {
                 @Override public BucketItem apply(final S3Object input) {
                     return new BucketItem(input.getKey(), new DateTime(input.getLastModifiedDate()));
                 }
-            }));
+            }).toImmutableList());
         } catch (S3ServiceException e) {
             logError(e);
             throw new RuntimeException(e);
@@ -169,13 +170,13 @@ public class BucketService {
     }
 
     public static class BucketItems {
-        private final Iterable<BucketItem> items;
+        private final List<BucketItem> items;
 
-        public BucketItems(final Iterable<BucketItem> items) {
+        public BucketItems(final List<BucketItem> items) {
             this.items = items;
         }
 
-        public Iterable<BucketItem> all() {
+        public List<BucketItem> all() {
             return items;
         }
 
