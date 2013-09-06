@@ -89,7 +89,7 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
 
     public MonetaryValue divide(final BigDecimal divisor, int scale)
     {
-        return new MonetaryValue(roundingStrategy.round(value.divide(divisor, scale)), new ScaleOnly(scale));
+        return new MonetaryValue(roundingStrategy.round(value.divide(divisor, scale, roundingStrategy.getRoundingMode().ordinal())), new ScaleOnly(scale));
     }
 
     public MonetaryValue divide(final BigDecimal divisor)

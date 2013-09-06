@@ -249,4 +249,15 @@ public class MonetaryValueTest
         assertThat(ONE.lessThan(TWO), is(true));
         assertThat(ONE.lessThan(ONE), is(false));
     }
+
+    @Test
+    public void bugFix_ScaleParameterPassedAsTheRoundingModeInDivideMethod()
+    {
+        MonetaryValue a = new MonetaryValue("10");
+
+        final MonetaryValue divide = a.divide(new BigDecimal("6"), 10);
+
+        assertThat(divide, equalTo(new MonetaryValue("1.6700000000")));
+    }
 }
+
