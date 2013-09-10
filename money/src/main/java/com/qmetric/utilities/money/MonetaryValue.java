@@ -177,7 +177,7 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
     @Override
     public String toString()
     {
-        return value.toString();
+        return roundingStrategy.round(value).toString();
     }
 
     @Override public int compareTo(final MonetaryValue other)
