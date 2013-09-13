@@ -6,6 +6,7 @@ import org.jets3t.service.S3ServiceException;
 import org.jets3t.service.ServiceException;
 import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static com.qmetric.utilities.s3.BucketService.BucketItem;
+import static com.qmetric.utilities.s3.BucketService.BucketItems;
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -181,8 +186,37 @@ public class BucketServiceTest
     }
 
     @Test
+    public void retrieveBucketItems() throws S3ServiceException
+    {
+        final S3Object s3Object1 = s3Object("abc/item1.txt", new DateTime(2013, 8, 5, 12, 0, 0, 0));
+        final S3Object s3Object2 = s3Object("abc/item2.txt", new DateTime(2013, 8, 5, 13, 0, 0, 0));
+        when(s3Service.listObjects(bucketName, "abc/", "")).thenReturn(new S3Object[] {s3Object1, s3Object2});
+
+        final BucketItems retrieved = bucketService.listItems("abc/", "");
+
+        assertThat(newArrayList(retrieved.all()), equalTo(asList(new BucketItem(s3Object1.getKey(), new DateTime(s3Object1.getLastModifiedDate())),
+                                                                 new BucketItem(s3Object2.getKey(), new DateTime(s3Object2.getLastModifiedDate())))));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void retrieveThrowRuntimeExceptionWhenErrorReadingBucketContents() throws S3ServiceException
+    {
+        when(s3Service.listObjects(bucketName, "abc/", "")).thenThrow(new S3ServiceException());
+
+        bucketService.listItems("abc/", "");
+    }
+
+    @Test
     public void shouldHaveBucketName()
     {
         assertThat(bucketService.getBucketName(), equalTo(bucketName));
+    }
+
+    private S3Object s3Object(final String key, final DateTime lastModified)
+    {
+        final S3Object s3Object = mock(S3Object.class);
+        when(s3Object.getKey()).thenReturn(key);
+        when(s3Object.getLastModifiedDate()).thenReturn(lastModified.toDate());
+        return s3Object;
     }
 }

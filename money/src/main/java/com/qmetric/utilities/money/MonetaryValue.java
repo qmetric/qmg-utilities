@@ -92,7 +92,7 @@ public class MonetaryValue implements Comparable<MonetaryValue>, BigMoneyProvide
 
     public MonetaryValue divide(final BigDecimal divisor, int scale)
     {
-        return new MonetaryValue(roundingStrategy.round(value.divide(divisor, scale)), new ScaleOnly(scale));
+        return new MonetaryValue(roundingStrategy.round(value.divide(divisor, scale, roundingStrategy.getRoundingMode().ordinal())), new ScaleOnly(scale));
     }
 
     public MonetaryValue divide(final BigDecimal divisor)
@@ -180,7 +180,7 @@ public class MonetaryValue implements Comparable<MonetaryValue>, BigMoneyProvide
     @Override
     public String toString()
     {
-        return value.toString();
+        return roundingStrategy.round(value).toString();
     }
 
     @Override public int compareTo(final MonetaryValue other)

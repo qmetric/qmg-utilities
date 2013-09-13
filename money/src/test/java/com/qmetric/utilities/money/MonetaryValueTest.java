@@ -255,4 +255,14 @@ public class MonetaryValueTest
     {
         assertThat(new MonetaryValue("33.33333").toBigMoney(), equalTo(BigMoney.parse("GBP 33.33333")));
     }
+
+    @Test
+    public void bugFix_ScaleParameterPassedAsTheRoundingModeInDivideMethod()
+    {
+        MonetaryValue a = new MonetaryValue("10");
+
+        final MonetaryValue divide = a.divide(new BigDecimal("6"), 10);
+
+        assertThat(divide, equalTo(new MonetaryValue("1.6700000000")));
+    }
 }
