@@ -1,5 +1,6 @@
 package com.qmetric.utilities.money;
 
+import org.joda.money.BigMoney;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -242,11 +243,16 @@ public class MonetaryValueTest
         assertThat(new MonetaryValue("1").doubleValue(), equalTo(1d));
     }
 
-    //
     @Test
     public void shouldBeLessThan()
     {
         assertThat(ONE.lessThan(TWO), is(true));
         assertThat(ONE.lessThan(ONE), is(false));
+    }
+
+    @Test
+    public void shouldImplementBigMoneyProvider()
+    {
+        assertThat(new MonetaryValue("33.33333").toBigMoney(), equalTo(BigMoney.parse("GBP 33.33333")));
     }
 }

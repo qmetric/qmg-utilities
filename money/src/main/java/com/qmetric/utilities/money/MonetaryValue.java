@@ -1,6 +1,9 @@
 package com.qmetric.utilities.money;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.money.BigMoney;
+import org.joda.money.BigMoneyProvider;
+import org.joda.money.CurrencyUnit;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -8,7 +11,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
+public class MonetaryValue implements Comparable<MonetaryValue>, BigMoneyProvider, Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -188,5 +191,10 @@ public class MonetaryValue implements Comparable<MonetaryValue>, Serializable
     public double doubleValue()
     {
         return scale(value).doubleValue();
+    }
+
+    @Override public BigMoney toBigMoney()
+    {
+        return BigMoney.of(CurrencyUnit.GBP, value);
     }
 }
