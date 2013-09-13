@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.money.BigMoney;
 import org.joda.money.BigMoneyProvider;
 import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -61,6 +62,11 @@ public class MonetaryValue implements Comparable<MonetaryValue>, BigMoneyProvide
     public MonetaryValue(final BigDecimal value)
     {
         this.value = value;
+    }
+
+    public MonetaryValue(final Money money)
+    {
+        this.value = money.getAmount();
     }
 
     public MonetaryValue add(final MonetaryValue augend)
