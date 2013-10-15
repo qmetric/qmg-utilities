@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.io.CharStreams;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -132,6 +133,13 @@ public class BucketService {
             logError(e);
             throw new RuntimeException(e);
         }
+    }
+
+    public void delete(final String objectKey) throws ServiceException
+    {
+        Validate.notEmpty(objectKey, "Object key must have a value");
+
+        s3Service.deleteObject(bucket.getName(), objectKey);
     }
 
     private Optional<S3Object> retrieveS3Object(String key) {

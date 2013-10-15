@@ -212,6 +212,26 @@ public class BucketServiceTest
         assertThat(bucketService.getBucketName(), equalTo(bucketName));
     }
 
+    @Test
+    public void shouldDeleteObjectFromS3Bucket() throws Exception
+    {
+        bucketService.delete("abc/item1.txt");
+
+        verify(s3Service).deleteObject(bucketName, "abc/item1.txt");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowExceptionIfObjectKeyIsNull() throws Exception
+    {
+        bucketService.delete(null);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowExceptionIfObjectKeyIsEmpty() throws Exception
+    {
+        bucketService.delete("");
+    }
+
     private S3Object s3Object(final String key, final DateTime lastModified)
     {
         final S3Object s3Object = mock(S3Object.class);
