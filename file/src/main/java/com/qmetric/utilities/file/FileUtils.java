@@ -7,6 +7,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -338,5 +339,10 @@ public class FileUtils
                 }
             }
         }
+    }
+
+    public FileObject toFileObject(final File sourceFile) throws FileSystemException
+    {
+        return fileSystemManager.toFileObject(sourceFile);
     }
 }

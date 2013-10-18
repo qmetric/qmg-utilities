@@ -3,18 +3,13 @@ package com.qmetric.utilities.file;
 import com.qmetric.utilities.io.IOUtils;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.VFS;
-import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static org.hamcrest.Matchers.any;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -80,5 +75,15 @@ public class FileUtilsTest
         fileUtils.copyFileToStream(outputStream, FILE_PATH);
 
         verify(fileObject1).close();
+    }
+
+    @Test
+    public void shouldCreateFileObjectInstanceFromFileInstance() throws Exception
+    {
+        final File sourceFile = mock(File.class);
+
+        fileUtils.toFileObject(sourceFile);
+
+        verify(fileSystemManager).toFileObject(eq(sourceFile));
     }
 }
