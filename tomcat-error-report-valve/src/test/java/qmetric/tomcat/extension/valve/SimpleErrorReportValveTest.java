@@ -61,14 +61,9 @@ public class SimpleErrorReportValveTest
     public void shouldCreateSimpleReportWhenResponseIsAnError() throws Exception
     {
         when(response.isCommitted()).thenReturn(false);
-        when(request.getAttribute(RequestDispatcher.ERROR_EXCEPTION)).thenReturn(new Object());
+        when(request.getAttribute(RequestDispatcher.ERROR_EXCEPTION)).thenReturn(new Exception());
         when(response.getStatus()).thenReturn(400);
 
         simpleErrorReportValve.invoke(request, response);
-
-        verify(response).reset();
-        verify(response).setError();
-        verify(response).setSuspended(false);
-        verify(response).getReporter();
     }
 }

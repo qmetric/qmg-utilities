@@ -2,132 +2,25 @@ package qmetric.tomcat.extension.valve;
 
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
-import org.apache.catalina.util.RequestUtil;
-import org.apache.catalina.valves.ValveBase;
+import org.apache.catalina.valves.ErrorReportValve;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import java.io.IOException;
-import java.io.Writer;
+public final class SimpleErrorReportValve extends ErrorReportValve {
+    private static final Logger LOG = Logger.getLogger(SimpleErrorReportValve.class.getName());
 
-/**
- * Custom error report valve for tomcat.
- * <p/>
- * Configure in the server.xml by adding errorReportValveClass into the Host element.
- * <p/>
- * e.g. <Host appBase="webapps" errorReportValveClass="qmetric.tomcat.extension.valve.SimpleErrorReportValve" ... >
- * <p/>
- * See tomcat docs. http://tomcat.apache.org/tomcat-6.0-doc/config/host.html
- * <p/>
- * Created: May 27, 2011, Author: Dom Farr
- */
-
-public final class SimpleErrorReportValve extends ValveBase
-{
-    public void invoke(Request request, Response response) throws IOException, ServletException
-    {
-
-        // Perform the request
-        getNext().invoke(request, response);
-
-        if (response.isCommitted())
-        {
-            return;
-        }
-
-        if (request.getAttribute(RequestDispatcher.ERROR_EXCEPTION) != null)
-        {
-
-            // The response is an error
-            response.setError();
-
-            // Reset the response (if possible)
-            try
-            {
-                response.reset();
+    @Override
+    protected void report(Request request, Response response, Throwable throwable) {
+        try (PrintWriter out = response.getWriter()) {
+            int statusCode = response.getStatus();
+            if (statusCode >= 400) {
+                out.write("Bad Request");
             }
-            catch (IllegalStateException e)
-            {
-                // can't do any about that
-            }
-
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "Error reporting error", e);
         }
-
-        response.setSuspended(false);
-
-        try
-        {
-            report(response);
-        }
-        catch (Throwable t)
-        {
-            // can't do any about that
-            System.out.println(t);
-        }
-    }
-
-    /**
-     * Prints out an error report.
-     *
-     * @param response The response being generated
-     */
-    private void report(Response response)
-    {
-
-        // Do nothing on a 1xx, 2xx and 3xx status
-        // Do nothing if anything has been written already
-        if (!isError(response) || hasWrittenContent(response))
-        {
-            return;
-        }
-
-        String message = RequestUtil.filter(response.getMessage());
-
-        if (message == null)
-        {
-            message = "";
-        }
-
-        // Do nothing if there is no report for the specified status code
-        if (sm.getString("http." + response.getStatus(), message) == null)
-        {
-            return;
-        }
-
-        try
-        {
-            response.setContentType("text/html");
-
-            response.setCharacterEncoding("utf-8");
-
-            Writer writer = response.getReporter();
-
-            writer.write(message);
-        }
-        catch (Throwable t)
-        {
-            if (container.getLogger().isDebugEnabled())
-            {
-                container.getLogger().debug("failed to write error report", t);
-            }
-        }
-    }
-
-    private boolean hasWrittenContent(final Response response)
-    {
-        final boolean hasContentBeenWritten = response.getContentWritten() > 0;
-
-        return hasContentBeenWritten;
-    }
-
-    private boolean isError(final Response response)
-    {
-        final boolean isErrorCode = response.getStatus() > 399;
-
-        return isErrorCode;
     }
 }
 

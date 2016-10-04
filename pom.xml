@@ -36,7 +36,7 @@
         <!-- dependency versions - keep in together and in order, for all our sanity -->
         <amqp.client.version>2.0.0</amqp.client.version>
         <apache.poi.version>3.7</apache.poi.version>
-        <apache-tomcat.version>7.0.16</apache-tomcat.version>
+        <apache-tomcat.version>7.0.57</apache-tomcat.version>
         <aspectj.version>1.6.8</aspectj.version>
         <commons-compress.version>1.0</commons-compress.version>
         <commons-dbcp.version>1.2.2</commons-dbcp.version>
